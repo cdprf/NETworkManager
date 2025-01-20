@@ -2,11 +2,12 @@
 using System.Windows;
 using System.Windows.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using NETworkManager.Controls;
 using NETworkManager.ViewModels;
 
 namespace NETworkManager.Views;
 
-public partial class PortScannerView
+public partial class PortScannerView : IDragablzTabItem
 {
     private readonly PortScannerViewModel _viewModel;
 
@@ -21,17 +22,17 @@ public partial class PortScannerView
         Dispatcher.ShutdownStarted += Dispatcher_ShutdownStarted;
     }
 
+    public void CloseTab()
+    {
+        _viewModel.OnClose();
+    }
+
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
         _viewModel.OnLoaded();
     }
 
     private void Dispatcher_ShutdownStarted(object sender, EventArgs e)
-    {
-        _viewModel.OnClose();
-    }
-
-    public void CloseTab()
     {
         _viewModel.OnClose();
     }

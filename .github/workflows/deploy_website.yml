@@ -1,6 +1,7 @@
 name: GitHub Pages
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -11,7 +12,8 @@ on:
 
 jobs:
   build-and-deploy-website:
-    runs-on: ubuntu-22.04
+    name: "Build and Deploy Website"
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     concurrency:
@@ -20,19 +22,19 @@ jobs:
       run:
         working-directory: Website
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
-
+          node-version: 20
+        
       - name: Get yarn cache
         id: yarn-cache
         run: echo "YARN_CACHE_DIR=$(yarn cache dir)" >> "${GITHUB_OUTPUT}"
 
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.yarn-cache.outputs.YARN_CACHE_DIR }}
           key: ${{ runner.os }}-Website-${{ hashFiles('**/yarn.lock') }}
@@ -46,7 +48,7 @@ jobs:
         run: yarn build
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

@@ -2,7 +2,6 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
-using NETworkManager.Models;
 using NETworkManager.ViewModels;
 
 namespace NETworkManager.Views;
@@ -17,8 +16,6 @@ public partial class AWSSessionManagerHostView
     {
         InitializeComponent();
         DataContext = _viewModel;
-
-        InterTabController.Partition = ApplicationName.AWSSessionManager.ToString();
     }
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)

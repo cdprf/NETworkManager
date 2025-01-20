@@ -1,5 +1,4 @@
-﻿using NETworkManager.Models;
-using NETworkManager.ViewModels;
+﻿using NETworkManager.ViewModels;
 
 namespace NETworkManager.Views;
 
@@ -11,8 +10,6 @@ public partial class SNTPLookupHostView
     {
         InitializeComponent();
         DataContext = _viewModel;
-
-        InterTabController.Partition = ApplicationName.SNTPLookup.ToString();
     }
 
     public void OnViewHide()

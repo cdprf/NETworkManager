@@ -171,6 +171,11 @@
             <webview:WebView2.Style>
                 <Style TargetType="{x:Type webview:WebView2}">
                     <Style.Triggers>
+                        <DataTrigger
+                            Binding="{Binding Source={x:Static settings:ConfigurationManager.Current}, Path=IsWebConsoleWindowDragging}"
+                            Value="True">
+                            <Setter Property="Visibility" Value="Hidden" />
+                        </DataTrigger>
                         <DataTrigger Binding="{Binding FirstLoad}" Value="True">
                             <Setter Property="Visibility" Value="Collapsed" />
                         </DataTrigger>

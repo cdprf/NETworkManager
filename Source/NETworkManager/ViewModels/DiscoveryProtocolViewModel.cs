@@ -6,17 +6,21 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using log4net;
 using MahApps.Metro.Controls.Dialogs;
 using NETworkManager.Localization.Resources;
+using NETworkManager.Models.Export;
 using NETworkManager.Models.Network;
 using NETworkManager.Settings;
 using NETworkManager.Utilities;
+using NETworkManager.Views;
 
 namespace NETworkManager.ViewModels;
 
 public class DiscoveryProtocolViewModel : ViewModelBase
 {
     #region Variables
+    private static readonly ILog Log = LogManager.GetLogger(typeof(DiscoveryProtocolViewModel));
 
     private readonly IDialogCoordinator _dialogCoordinator;
 
@@ -279,10 +283,62 @@ public class DiscoveryProtocolViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
+            Log.Error("Error while trying to capture", ex);
+            
             await _dialogCoordinator.ShowMessageAsync(this, Strings.Error, ex.Message,
                 MessageDialogStyle.Affirmative, AppearanceManager.MetroDialog);
         }
     }
+
+    public ICommand ExportCommand => new RelayCommand(_ => ExportAction().ConfigureAwait(false));
+
+    private async Task ExportAction()
+    {
+        var customDialog = new CustomDialog
+        {
+            Title = Strings.Export
+        };
+
+        var exportViewModel = new ExportViewModel(async instance =>
+            {
+                await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+
+                try
+                {
+                    ExportManager.Export(instance.FilePath, instance.FileType,
+                        [DiscoveryPackage]);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("Error while exporting data as " + instance.FileType, ex);
+                    
+                    var settings = AppearanceManager.MetroDialog;
+                    settings.AffirmativeButtonText = Strings.OK;
+
+                    await _dialogCoordinator.ShowMessageAsync(this, Strings.Error,
+                        Strings.AnErrorOccurredWhileExportingTheData + Environment.NewLine +
+                        Environment.NewLine + ex.Message, MessageDialogStyle.Affirmative, settings);
+                }
+
+                SettingsManager.Current.DiscoveryProtocol_ExportFileType = instance.FileType;
+                SettingsManager.Current.DiscoveryProtocol_ExportFilePath = instance.FilePath;
+            }, _ => { _dialogCoordinator.HideMetroDialogAsync(this, customDialog); }, 
+            [
+                ExportFileType.Csv, ExportFileType.Xml, ExportFileType.Json
+            ], false, SettingsManager.Current.DiscoveryProtocol_ExportFileType,
+            SettingsManager.Current.DiscoveryProtocol_ExportFilePath);
+
+        customDialog.Content = new ExportDialog
+        {
+            DataContext = exportViewModel
+        };
+
+        await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+    }
+
+    #endregion
+
+    #region Methods
 
     private void Timer_Elapsed(object sender, ElapsedEventArgs e)
     {
@@ -295,10 +351,6 @@ public class DiscoveryProtocolViewModel : ViewModelBase
                 _secondsRemaining--;
         }));
     }
-
-    #endregion
-
-    #region Methods
 
     public void OnViewVisible()
     {

@@ -13,7 +13,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Dragablz;
+using log4net;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using NETworkManager.Controls;
@@ -33,13 +33,15 @@ namespace NETworkManager.ViewModels;
 public class IPScannerViewModel : ViewModelBase, IProfileManagerMinimal
 {
     #region Variables
-
+    private static readonly ILog Log = LogManager.GetLogger(typeof(IPScannerViewModel));
+    
     private readonly IDialogCoordinator _dialogCoordinator;
 
     private CancellationTokenSource _cancellationTokenSource;
-
+    
     private readonly Guid _tabId;
     private bool _firstLoad = true;
+    private bool _closed;
 
     private string _host;
 
@@ -235,6 +237,8 @@ public class IPScannerViewModel : ViewModelBase, IProfileManagerMinimal
     {
         _dialogCoordinator = instance;
 
+        ConfigurationManager.Current.IPScannerTabCount++;
+
         _tabId = tabId;
         Host = hostOrIPRange;
 
@@ -336,7 +340,10 @@ public class IPScannerViewModel : ViewModelBase, IProfileManagerMinimal
             WakeOnLAN_MACAddress = SelectedResult.MACAddress
         };
 
-        await ProfileDialogManager.ShowAddProfileDialog(this, _dialogCoordinator, profileInfo);
+        var window = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
+
+        await ProfileDialogManager.ShowAddProfileDialog(window, this, _dialogCoordinator, profileInfo, null,
+            ApplicationName.IPScanner);
     }
 
     public ICommand CopySelectedPortsCommand => new RelayCommand(_ => CopySelectedPortsAction());
@@ -371,12 +378,7 @@ public class IPScannerViewModel : ViewModelBase, IProfileManagerMinimal
 
         Results.Clear();
 
-        // Change the tab title (not nice, but it works)
-        var window = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
-
-        if (window != null)
-            foreach (var tabablzControl in VisualTreeHelper.FindVisualChildren<TabablzControl>(window))
-                tabablzControl.Items.OfType<DragablzTabItem>().First(x => x.Id == _tabId).Header = Host;
+        DragablzTabItem.SetTabHeader(_tabId, Host);
 
         _cancellationTokenSource = new CancellationTokenSource();
 
@@ -510,6 +512,8 @@ public class IPScannerViewModel : ViewModelBase, IProfileManagerMinimal
             }
             catch (Exception ex)
             {
+                Log.Error("Error trying to run custom command", ex);
+                
                 await _dialogCoordinator.ShowMessageAsync(this,
                     Strings.ResourceManager.GetString("Error",
                         LocalizationManager.GetInstance().Culture), ex.Message, MessageDialogStyle.Affirmative,
@@ -534,6 +538,8 @@ public class IPScannerViewModel : ViewModelBase, IProfileManagerMinimal
 
     private Task Export()
     {
+        var window = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
+
         var customDialog = new CustomDialog
         {
             Title = Strings.Export
@@ -541,7 +547,7 @@ public class IPScannerViewModel : ViewModelBase, IProfileManagerMinimal
 
         var exportViewModel = new ExportViewModel(async instance =>
         {
-            await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+            await _dialogCoordinator.HideMetroDialogAsync(window, customDialog);
 
             try
             {
@@ -553,34 +559,43 @@ public class IPScannerViewModel : ViewModelBase, IProfileManagerMinimal
             }
             catch (Exception ex)
             {
+                Log.Error("Error while exporting data as " + instance.FileType, ex);
+                
                 var settings = AppearanceManager.MetroDialog;
                 settings.AffirmativeButtonText = Strings.OK;
 
-                await _dialogCoordinator.ShowMessageAsync(this, Strings.Error,
+                await _dialogCoordinator.ShowMessageAsync(window, Strings.Error,
                     Strings.AnErrorOccurredWhileExportingTheData + Environment.NewLine +
                     Environment.NewLine + ex.Message, MessageDialogStyle.Affirmative, settings);
             }
 
             SettingsManager.Current.IPScanner_ExportFileType = instance.FileType;
             SettingsManager.Current.IPScanner_ExportFilePath = instance.FilePath;
-        }, _ => { _dialogCoordinator.HideMetroDialogAsync(this, customDialog); }, new[]
-        {
+        }, _ => { _dialogCoordinator.HideMetroDialogAsync(window, customDialog); }, [
             ExportFileType.Csv, ExportFileType.Xml, ExportFileType.Json
-        }, true, SettingsManager.Current.IPScanner_ExportFileType, SettingsManager.Current.IPScanner_ExportFilePath);
+        ], true, SettingsManager.Current.IPScanner_ExportFileType, SettingsManager.Current.IPScanner_ExportFilePath);
 
         customDialog.Content = new ExportDialog
         {
             DataContext = exportViewModel
         };
 
-        return _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+        return _dialogCoordinator.ShowMetroDialogAsync(window, customDialog);
     }
 
     public void OnClose()
     {
+        // Prevent multiple calls
+        if (_closed)
+            return;
+
+        _closed = true;
+
         // Stop scan
         if (IsRunning)
             Stop();
+
+        ConfigurationManager.Current.IPScannerTabCount--;
     }
 
     #endregion

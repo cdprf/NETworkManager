@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Xml.Serialization;
-using DnsClient;
+﻿using DnsClient;
 using Lextm.SharpSnmpLib.Messaging;
 using NETworkManager.Controls;
 using NETworkManager.Models;
@@ -15,6 +9,12 @@ using NETworkManager.Models.PowerShell;
 using NETworkManager.Models.PuTTY;
 using NETworkManager.Models.RemoteDesktop;
 using NETworkManager.Utilities;
+using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Xml.Serialization;
 
 // ReSharper disable InconsistentNaming
 
@@ -67,19 +67,18 @@ public class SettingsInfo : INotifyPropertyChanged
 
     #region General
 
-    // General
-    private ApplicationName _general_DefaultApplicationViewName =
-        GlobalStaticConfiguration.General_DefaultApplicationViewName;
+    // General   
+    private ObservableSetCollection<ApplicationInfo> _general_ApplicationList = new();
 
-    public ApplicationName General_DefaultApplicationViewName
+    public ObservableSetCollection<ApplicationInfo> General_ApplicationList
     {
-        get => _general_DefaultApplicationViewName;
+        get => _general_ApplicationList;
         set
         {
-            if (value == _general_DefaultApplicationViewName)
+            if (value == _general_ApplicationList)
                 return;
 
-            _general_DefaultApplicationViewName = value;
+            _general_ApplicationList = value;
             OnPropertyChanged();
         }
     }
@@ -127,21 +126,6 @@ public class SettingsInfo : INotifyPropertyChanged
                 return;
 
             _general_HistoryListEntries = value;
-            OnPropertyChanged();
-        }
-    }
-
-    private ObservableSetCollection<ApplicationInfo> _general_ApplicationList = new();
-
-    public ObservableSetCollection<ApplicationInfo> General_ApplicationList
-    {
-        get => _general_ApplicationList;
-        set
-        {
-            if (value == _general_ApplicationList)
-                return;
-
-            _general_ApplicationList = value;
             OnPropertyChanged();
         }
     }
@@ -741,6 +725,36 @@ public class SettingsInfo : INotifyPropertyChanged
         }
     }
 
+    private string _networkInterface_ExportFilePath;
+
+    public string NetworkInterface_ExportFilePath
+    {
+        get => _networkInterface_ExportFilePath;
+        set
+        {
+            if (value == _networkInterface_ExportFilePath)
+                return;
+
+            _networkInterface_ExportFilePath = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private ExportFileType _networkInterface_ExportFileType = GlobalStaticConfiguration.NetworkInterface_ExportFileType;
+
+    public ExportFileType NetworkInterface_ExportFileType
+    {
+        get => _networkInterface_ExportFileType;
+        set
+        {
+            if (value == _networkInterface_ExportFileType)
+                return;
+
+            _networkInterface_ExportFileType = value;
+            OnPropertyChanged();
+        }
+    }
+
     #endregion
 
     #region WiFi
@@ -786,6 +800,21 @@ public class SettingsInfo : INotifyPropertyChanged
                 return;
 
             _wiFi_Show5GHzNetworks = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private bool _wiFi_Show6GHzNetworks = GlobalStaticConfiguration.WiFi_Show6GHzNetworks;
+
+    public bool WiFi_Show6GHzNetworks
+    {
+        get => _wiFi_Show6GHzNetworks;
+        set
+        {
+            if (value == _wiFi_Show6GHzNetworks)
+                return;
+
+            _wiFi_Show6GHzNetworks = value;
             OnPropertyChanged();
         }
     }
@@ -1259,7 +1288,7 @@ public class SettingsInfo : INotifyPropertyChanged
                 return;
 
             _portScanner_MaxPortThreads = value;
-            SettingsChanged = true;
+            OnPropertyChanged();
         }
     }
 
@@ -3664,6 +3693,37 @@ public class SettingsInfo : INotifyPropertyChanged
         }
     }
 
+    private string _discoveryProtocol_ExportFilePath;
+
+    public string DiscoveryProtocol_ExportFilePath
+    {
+        get => _discoveryProtocol_ExportFilePath;
+        set
+        {
+            if (value == _discoveryProtocol_ExportFilePath)
+                return;
+
+            _discoveryProtocol_ExportFilePath = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private ExportFileType _discoveryProtocol_ExportFileType =
+        GlobalStaticConfiguration.DiscoveryProtocol_ExportFileType;
+
+    public ExportFileType DiscoveryProtocol_ExportFileType
+    {
+        get => _discoveryProtocol_ExportFileType;
+        set
+        {
+            if (value == _discoveryProtocol_ExportFileType)
+                return;
+
+            _discoveryProtocol_ExportFileType = value;
+            OnPropertyChanged();
+        }
+    }
+
     #endregion
 
     #region WakeOnLAN
@@ -4069,6 +4129,36 @@ public class SettingsInfo : INotifyPropertyChanged
                 return;
 
             _bitCalculator_Notation = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private string _bitCalculator_ExportFilePath;
+
+    public string BitCalculator_ExportFilePath
+    {
+        get => _bitCalculator_ExportFilePath;
+        set
+        {
+            if (value == _bitCalculator_ExportFilePath)
+                return;
+
+            _bitCalculator_ExportFilePath = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private ExportFileType _bitCalculator_ExportFileType = GlobalStaticConfiguration.BitCalculator_ExportFileType;
+
+    public ExportFileType BitCalculator_ExportFileType
+    {
+        get => _bitCalculator_ExportFileType;
+        set
+        {
+            if (value == _bitCalculator_ExportFileType)
+                return;
+
+            _bitCalculator_ExportFileType = value;
             OnPropertyChanged();
         }
     }

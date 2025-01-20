@@ -2,6 +2,8 @@
 
 public enum WiFiRadio
 {
-    One,
-    Two
+    GHz2dot4,
+    GHz5,
+    GHz6,
+    Unknown
 }

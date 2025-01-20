@@ -2,7 +2,6 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
-using NETworkManager.Models;
 using NETworkManager.Profiles;
 using NETworkManager.ViewModels;
 
@@ -16,8 +15,6 @@ public partial class TracerouteHostView
     {
         InitializeComponent();
         DataContext = _viewModel;
-
-        InterTabController.Partition = ApplicationName.Traceroute.ToString();
     }
 
     private void ContextMenu_Opened(object sender, RoutedEventArgs e)

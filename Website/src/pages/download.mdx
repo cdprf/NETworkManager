@@ -8,29 +8,27 @@ import styles from "./styles.module.css";
 
 # Download
 
-## Latest
-
-Version: **2024.1.7.0**<br />
-Release date: **07.01.2024**
+Version: **2025.1.18.0**<br />
+Release date: **18.01.2025**
 
 Download the latest binaries via GitHub Releases:
 
-<div className={`${styles.downloadButtonContainer} margin-bottom--lg`}>
+<div className={`${styles.centerButtonContainer} margin-bottom--lg`}>
   <Link
     className={`button button--primary ${styles.downloadButton}`}
-    to="https://github.com/BornToBeRoot/NETworkManager/releases/download/2024.1.7.0/NETworkManager_2024.1.7.0_Setup.exe"
+    to="https://github.com/BornToBeRoot/NETworkManager/releases/download/2025.1.18.0/NETworkManager_2025.1.18.0_Setup.msi"
   >
     Setup
   </Link>
   <Link
     className={`button button--info ${styles.downloadButton}`}
-    to="https://github.com/BornToBeRoot/NETworkManager/releases/download/2024.1.7.0/NETworkManager_2024.1.7.0_Portable.zip"
+    to="https://github.com/BornToBeRoot/NETworkManager/releases/download/2025.1.18.0/NETworkManager_2025.1.18.0_Portable.zip"
   >
     Portable
   </Link>
   <Link
     className={`button button--info ${styles.downloadButton}`}
-    to="https://github.com/BornToBeRoot/NETworkManager/releases/download/2024.1.7.0/NETworkManager_2024.1.7.0_Archive.zip"
+    to="https://github.com/BornToBeRoot/NETworkManager/releases/download/2025.1.18.0/NETworkManager_2025.1.18.0_Archive.zip"
   >
     Archive
   </Link>
@@ -57,49 +55,123 @@ Download the latest binaries via GitHub Releases:
         alt="Latest release"
         src="https://img.shields.io/github/downloads/BornToBeroot/NETworkManager/latest/total.svg?style=for-the-badge&logo=github"
       />
-    </a>  
-  </p>  
+    </a>
+  </p>
 </div>
 
-Here you can find the [changelog](/docs/changelog/2024-1-7-0).
+<div className={`${styles.centerButtonContainer} margin-bottom--lg`}>
+  <Link
+    className={`button button--secondary ${styles.additionalButton}`}
+    to="https://github.com/BornToBeRoot/NETworkManager#-donate"
+    target="_blank"
+  >
+    💖 Donate
+  </Link>
+  <Link
+    className={`button button--secondary ${styles.additionalButton}`}
+    to="/docs/changelog/2025-1-18-0"
+    target="_blank"
+  >
+    📃 Changelog
+  </Link>
+</div>
+
+<details>
+  <summary>Checksums [SHA-256]</summary>
+  <div>
+    <p>Checksums [SHA-256] for the latest release:</p>
+    <p>
+      <b>Setup</b> (MSI-Installer)
+      <pre>
+        <code>
+          0E8722AB821FDFC5079C8E914CDBC293F373F551924EFBA14CA4AF6E68B678F9
+        </code>
+      </pre>
+      <b>Portable</b> (ZIP-Archive)
+      <pre>
+        <code>
+          85000CC7E9892C14B3C1F7DE2D540A57E2C90CF5AE25E27960844751AADCF166
+        </code>
+      </pre>
+      <b>Archive</b> (ZIP-Archive)
+      <pre>
+        <code>
+          68FFC7A42F0CF27B83525BB6AE79C730C96C40A956869F5C45D60B97CCECAE74
+        </code>        
+      </pre>
+    </p>
+    <p>Verify the file hash with the following PowerShell command:</p>
+    <pre>
+      <code class="language-powershell">
+        Get-FileHash -Path .\NETworkManager_&#123;VERSION&#125;_Setup.msi
+        -Algorithm SHA256
+      </code>
+    </pre>
+  </div>
+</details>
 
 :::info
 
-**Setup** [Recommended]<br />
+**Setup** (MSI-Installer) [Recommended]<br />
 Installs NETworkManager on your system for all users (requires administrator privileges).<br />
 Profiles and settings are stored in the user profile under `Documents\NETworkManager`.<br />
 
-**Portable**<br />
+**Portable** (ZIP-Archive)<br />
 Run NETworkManager anywhere without installation (e.g. USB stick, network share).<br />
 Profiles and settings are stored in the same directory as the executable. Upgrades are supported by copying the `Profiles` and `Settings` directories to the newly downloaded version.
 
-**Archive**<br />
+**Archive** (ZIP-Archive)<br />
 Run NETworkManager anywhere without installation (e.g. USB stick, network share).<br />
 Profiles and settings are stored in the user profile under `Documents\NETworkManager`. Might be useful for custom deployment senarios (e.g. Terminal Server, Intune, etc.).
 
-See also the [system requirements](#system-requirements).
-
 :::
 
-### Hashes
+## System requirements
 
-File hashes of the above downloads:
+- Windows 10 / Server x64 (22H2 or later)
+- [.NET Desktop Runtime 8.0 (LTS) - x64](https://dotnet.microsoft.com/en-us/download/dotnet/8.0/runtime)
 
-| File     | `SHA256`                                                           |
-| :------- | :----------------------------------------------------------------- |
-| Setup    | `FE15739018AA90674FC0E0AE1BDBFB8DC015517020439C7151C3634D936FA681` |
-| Portable | `E800A0C49B360C27EF5BA3E8B962D1C96EACF41DCC8E6C257F7777579C22AB79` |
-| Archive  | `15DF615BE959F59C3D7C99C93BB3FA95A2C61DC7BEA6F5E22179A4C2723973A3` |
+## Silent install
 
-:::info
+Install silent with the following command:
 
-You can verify the file hash with the following PowerShell command:
-
-```powershell
-Get-FileHash -Path .\NETworkManager_{VERSION}_Setup.exe -Algorithm SHA256
+```
+.\NETworkManager_{VERSION}_Setup.msi /quiet /norestart
 ```
 
-:::
+## Package Manager
+
+NETworkManager is available through the following package managers.
+
+### Chocolatey
+
+```PowerShell
+# Install via Chocolatey
+choco install networkmanager
+```
+
+Chocolatey package: [chocolatey.org/packages/NETworkManager](https://chocolatey.org/packages/NETworkManager)
+
+### WinGet
+
+```PowerShell
+# Install via WinGet
+winget install BornToBeRoot.NETworkManager
+```
+
+WinGet source: [github.com/microsoft/winget-pkgs](https://github.com/microsoft/winget-pkgs/tree/master/manifests/b/BornToBeRoot/NETworkManager/)
+
+### Evergreen
+
+```PowerShell
+# Get release via Evergreen
+Get-EvergreenApp -Name NETworkManager
+
+# Get release via Evergreen and save the setup file to disk
+Get-EvergreenApp -Name NETworkManager | Save-EvergreenApp -Path C:\Users\$env:Username\Downloads\
+```
+
+Evergreen PowerShell module: [github.com/aaronparker/evergreen](https://github.com/aaronparker/evergreen)
 
 ## Pre-release
 
@@ -113,59 +185,29 @@ Please note that pre-release versions are not as stable as regular versions and 
 
 :::
 
-## System requirements
+## Code Signing Policy
 
-- Windows 10 / Server x64 (1809 or later)
-- [.NET Desktop Runtime 8.0 (LTS) - x64](https://dotnet.microsoft.com/en-us/download/dotnet/8.0/runtime)
+NETworkManager uses free code signing provided by [SignPath.io](https://signpath.io/) and a free code signing certificate
+from [SignPath Foundation](https://signpath.org/).
 
-## Package Manager
+The binaries and installer are built on [AppVeyor](https://ci.appveyor.com/project/BornToBeRoot/networkmanager) directly from the [GitHub repository](https://github.com/BornToBeRoot/NETworkManager/blob/main/appveyor.yml).
+Build artifacts are automatically sent to [SignPath.io](https://signpath.io/) via webhook, where they are signed after manual approval by the maintainer.
+The signed binaries are then uploaded to the [GitHub releases](https://github.com/BornToBeRoot/NETworkManager/releases) page.
 
-NETworkManager is available through the following package managers.
+## Privacy Policy
 
-### Chocolatey
+This program will not transfer any information to other networked systems unless specifically requested
+by the user or the person installing or operating it.
 
-Install via Chocolatey:
+NETworkManager has integrated the following services for additional functions, which can be enabled or
+disabled at the first start (in the welcome dialog) or at any time in the settings:
 
-```PowerShell
-choco install networkmanager
-```
+- [api.github.com](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement) (Check for program updates)
+- [ipify.org](https://www.ipify.org/) (Retrieve the public IP address used by the client)
+- [ip-api.com](https://ip-api.com/docs/legal) (Retrieve network information such as geo location, ISP, DNS resolver used, etc. used by the client)
 
-Chocolatey package: [chocolatey.org/packages/NETworkManager](https://chocolatey.org/packages/NETworkManager)
+## License
 
-### WinGet
+The code is open source and available on [GitHub](https://github.com/BornToBeRoot/NETworkManager) published under the [GNU General Public License v3](https://github.com/BornToBeRoot/NETworkManager/blob/main/LICENSE).
 
-Install via WinGet:
-
-```PowerShell
-winget install BornToBeRoot.NETworkManager
-```
-
-WinGet source: [github.com/microsoft/winget-pkgs](https://github.com/microsoft/winget-pkgs/tree/master/manifests/b/BornToBeRoot/NETworkManager/)
-
-### Evergreen
-
-Get the latest release via Evergreen:
-
-```PowerShell
-# Get release via Evergreen
-Get-EvergreenApp -Name NETworkManager
-
-# Get release via Evergreen and save the setup file to disk
-Get-EvergreenApp -Name NETworkManager | Save-EvergreenApp -Path C:\Users\$env:Username\Downloads\
-```
-
-Evergreen PowerShell module: [github.com/aaronparker/evergreen](https://github.com/aaronparker/evergreen)
-
-## Silent install
-
-Install silent with the following command:
-
-```
-.\NETworkManager_{VERSION}_Setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /TASKS="desktopicon" /SP-
-```
-
-:::info
-
-The setup is based on [InnoSetup](https://jrsoftware.org/isinfo.php) and the common [command line parameters](https://jrsoftware.org/ishelp/index.php?topic=setupcmdline) are supported.
-
-:::
+The licenses of the libraries used can be found [here](https://github.com/BornToBeRoot/NETworkManager/tree/main/Source/NETworkManager.Documentation/Licenses).

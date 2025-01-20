@@ -28,12 +28,13 @@ In addition, further actions can be performed using the buttons at the bottom le
     - **Release & Renew** - Releases the current IPv6 addresses obtained via DHCPv6 and renews them via DHCPv6 for the _selected_ adapter that ist configured to automatically obtain an IPv6 address (`ipconfig /release6 && ipconfig /renew6 <ADAPTER>`).
     - **Release** - Releases the current IPv6 addresses obtained via DHCPv6 for the _selected_ network adapter that is configured to automatically obtain an IPv6 address (`ipconfig /release6 <ADAPTER>`).
     - **Renew** - Renews the current IPv6 address via DHCPv6 for the _selected_ network adapter that is configured to automatically obtain an IPv6 address (`ipconfig /renew6 <ADAPTER>`).
+- **Export...** - Export the information to a CSV, XML or JSON file.
 
 :::
 
 :::note
 
-Right-click on the result to copy or export the information.
+Right-click on the result to copy the information.
 
 :::
 
@@ -60,8 +61,40 @@ The options you can set correspond to the network adapter properties `Internetpr
 In addition, further actions can be performed using the buttons at the bottom left:
 
 - **Additional config...**
+
   - **Add IPv4 address...** - Opens a dialog to add an IPv4 address with a subnet mask or CIDR to the selected network adapter.
+
+    :::note
+
+    If a static IP address is added to a network adapter that is configured for DHCP, the `netsh` option `dhcpstaticipcoexistence` is also activated.
+
+    The following command is executed in an elevated PowerShell to enable the `dhcpstaticipcoexistence` option:
+
+    ```PowerShell
+    netsh interface ipv4 set interface interface="Ethernet" dhcpstaticipcoexistence=enabled
+    ```
+
+    :::
+
+    :::info
+
+    The `netsh` option `dhcpstaticipcoexistence` allows the network adapter to use a static IP address and still receive DHCP options (e.g. DNS server) from the DHCP server. This is useful if you want to use a static IP address but still want to receive DNS server addresses from the DHCP server. This feature is available since Windows 10 version 1703 (Creators Update).
+
+    :::
+
   - **Remove IPv4 addres...** - Opens a dialog where you can select an IPv4 address to remove from the selected network adapter.
+
+    :::note
+
+    Only IPv4 addresses that are not assigned via DHCP can be removed.
+
+    If you have previously added an additional IPv4 address to a network adapter that is configured for DHCP, the `netsh` option `dhcpstaticipcoexistence` remains active. To disable it, run the following command in an elevated PowerShell:
+
+    ```PowerShell
+    netsh interface ipv4 set interface interface="Ethernet" dhcpstaticipcoexistence=disabled
+    ```
+
+    :::
 
 :::note
 

@@ -23,7 +23,8 @@ const config = {
   trailingSlash: false,
 
   onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "warn",
+  onBrokenAnchors: "throw",
+  onBrokenMarkdownLinks: "throw",
 
   i18n: {
     defaultLocale: "en",
@@ -73,7 +74,7 @@ const config = {
             type: "docSidebar",
             sidebarId: "docsSidebar",
             position: "left",
-            label: "Docs",
+            label: "Documentation",
           },
           {
             to: "/blog",
@@ -98,7 +99,7 @@ const config = {
                 to: "/download",
               },
               {
-                label: "Docs",
+                label: "Documentation",
                 to: "/docs/introduction",
               },
               {
@@ -111,17 +112,25 @@ const config = {
             title: "Community",
             items: [
               {
-                label: "Twitter",
-                href: "https://twitter.com/_BornToBeRoot",
+                label: "X",
+                href: "https://x.com/_BornToBeRoot",
               },
             ],
           },
           {
-            title: "Source Code",
+            title: "Contributing",
             items: [
               {
                 label: "GitHub",
                 href: "https://github.com/BornToBeRoot/NETworkManager",
+              },
+              {
+                label: "Transifex",
+                href: "https://app.transifex.com/BornToBeRoot/NETworkManager/",
+              },
+              {
+                label: "Code of Conduct",
+                href: "https://github.com/BornToBeRoot/NETworkManager/blob/main/CODE_OF_CONDUCT.md",
               },
             ],
           },
@@ -133,6 +142,10 @@ const config = {
         darkTheme: prismThemes.dracula,
       },
     }),
+
+  plugins: [
+    require.resolve("./plugins/gurubase-widget.js")
+  ],
 };
 
 export default config;

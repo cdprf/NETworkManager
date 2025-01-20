@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using MahApps.Metro.Controls.Dialogs;
+using NETworkManager.ViewModels;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using MahApps.Metro.Controls.Dialogs;
-using NETworkManager.Models;
-using NETworkManager.ViewModels;
 
 namespace NETworkManager.Views;
 
@@ -18,8 +17,6 @@ public partial class RemoteDesktopHostView
     {
         InitializeComponent();
         DataContext = _viewModel;
-
-        InterTabController.Partition = ApplicationName.RemoteDesktop.ToString();
     }
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)

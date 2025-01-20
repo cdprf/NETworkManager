@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
+using log4net;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using NETworkManager.Localization.Resources;
@@ -69,7 +70,8 @@ public class ARPTableViewModel : ViewModelBase
     #endregion
 
     #region Variables
-
+    private static readonly ILog Log = LogManager.GetLogger(typeof(ARPTableViewModel));
+    
     private readonly IDialogCoordinator _dialogCoordinator;
 
     private readonly bool _isLoading;
@@ -390,6 +392,8 @@ public class ARPTableViewModel : ViewModelBase
             }
             catch (Exception ex)
             {
+                Log.Error("Error while exporting data as " + instance.FileType, ex);
+                
                 var settings = AppearanceManager.MetroDialog;
                 settings.AffirmativeButtonText = Strings.OK;
 
@@ -400,10 +404,9 @@ public class ARPTableViewModel : ViewModelBase
 
             SettingsManager.Current.ARPTable_ExportFileType = instance.FileType;
             SettingsManager.Current.ARPTable_ExportFilePath = instance.FilePath;
-        }, _ => { _dialogCoordinator.HideMetroDialogAsync(this, customDialog); }, new[]
-        {
+        }, _ => { _dialogCoordinator.HideMetroDialogAsync(this, customDialog); }, [
             ExportFileType.Csv, ExportFileType.Xml, ExportFileType.Json
-        }, true, SettingsManager.Current.ARPTable_ExportFileType, SettingsManager.Current.ARPTable_ExportFilePath);
+        ], true, SettingsManager.Current.ARPTable_ExportFileType, SettingsManager.Current.ARPTable_ExportFilePath);
 
         customDialog.Content = new ExportDialog
         {

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--Service Name and Transport Protocol Port Number Registry
-Generated 03/19/2023 18:43:22-->
+Generated 04/21/2024 21:20:40-->
 <Ports>
     <Port>
         <Number>0</Number>
@@ -3594,14 +3594,16 @@ Generated 03/19/2023 18:43:22-->
     <Port>
         <Number>359</Number>
         <Protocol>tcp</Protocol>
-        <Name>nsrmp</Name>
-        <Description>Network Security Risk Management Protocol</Description>
+        <Name>
+        </Name>
+        <Description>Reserved</Description>
     </Port>
     <Port>
         <Number>359</Number>
         <Protocol>udp</Protocol>
-        <Name>nsrmp</Name>
-        <Description>Network Security Risk Management Protocol</Description>
+        <Name>
+        </Name>
+        <Description>Reserved</Description>
     </Port>
     <Port>
         <Number>360</Number>
@@ -8802,8 +8804,8 @@ Generated 03/19/2023 18:43:22-->
         <Number>914</Number>
         <Protocol>udp</Protocol>
         <Name>rift-lies</Name>
-        <Description>Routing in Fat Trees Link Information Elements (TEMPORARY - registered 2023-02-17, expires
-            2024-02-17)
+        <Description>Routing in Fat Trees Link Information Elements (TEMPORARY - registered 2023-02-17, extension
+            registered 2024-01-12, expires 2025-02-17)
         </Description>
     </Port>
     <Port>
@@ -8817,8 +8819,8 @@ Generated 03/19/2023 18:43:22-->
         <Number>915</Number>
         <Protocol>udp</Protocol>
         <Name>rift-ties</Name>
-        <Description>Routing in Fat Trees Topology Information Elements (TEMPORARY - registered 2023-02-17, expires
-            2024-02-17)
+        <Description>Routing in Fat Trees Topology Information Elements (TEMPORARY - registered 2023-02-17, extension
+            registered 2024-01-12, expires 2025-02-17)
         </Description>
     </Port>
     <Port>
@@ -25545,6 +25547,18 @@ Generated 03/19/2023 18:43:22-->
         <Description>OpenTable</Description>
     </Port>
     <Port>
+        <Number>2369</Number>
+        <Protocol>tcp</Protocol>
+        <Name>bif-p2p</Name>
+        <Description>Blockchain Identifier InFrastructure P2P</Description>
+    </Port>
+    <Port>
+        <Number>2369</Number>
+        <Protocol>udp</Protocol>
+        <Name>bif-p2p</Name>
+        <Description>Blockchain Identifier InFrastructure P2P</Description>
+    </Port>
+    <Port>
         <Number>2370</Number>
         <Protocol>tcp</Protocol>
         <Name>l3-hbmon</Name>
@@ -35183,14 +35197,14 @@ Generated 03/19/2023 18:43:22-->
     <Port>
         <Number>3157</Number>
         <Protocol>tcp</Protocol>
-        <Name>e3consultants</Name>
-        <Description>CCC Listener Port</Description>
+        <Name>lsa-comm</Name>
+        <Description>LSA Communicator</Description>
     </Port>
     <Port>
         <Number>3157</Number>
         <Protocol>udp</Protocol>
-        <Name>e3consultants</Name>
-        <Description>CCC Listener Port</Description>
+        <Name>lsa-comm</Name>
+        <Description>LSA Communicator</Description>
     </Port>
     <Port>
         <Number>3158</Number>
@@ -55217,6 +55231,18 @@ Generated 03/19/2023 18:43:22-->
         <Description>Matter Operational Discovery and Communi</Description>
     </Port>
     <Port>
+        <Number>5543</Number>
+        <Protocol>tcp</Protocol>
+        <Name>qftest-licserve</Name>
+        <Description>QF-Test License Server</Description>
+    </Port>
+    <Port>
+        <Number>5543</Number>
+        <Protocol>udp</Protocol>
+        <Name>record</Name>
+        <Description>Reserved</Description>
+    </Port>
+    <Port>
         <Number>5550</Number>
         <Protocol>tcp</Protocol>
         <Name>cbus</Name>
@@ -64227,6 +64253,18 @@ Generated 03/19/2023 18:43:22-->
         <Description>Asymmetric Extended Route Optimization (AERO)</Description>
     </Port>
     <Port>
+        <Number>8061</Number>
+        <Protocol>tcp</Protocol>
+        <Name>nikatron-dev</Name>
+        <Description>Nikatron Device Protocol</Description>
+    </Port>
+    <Port>
+        <Number>8061</Number>
+        <Protocol>udp</Protocol>
+        <Name>record</Name>
+        <Description>Reserved</Description>
+    </Port>
+    <Port>
         <Number>8066</Number>
         <Protocol>tcp</Protocol>
         <Name>toad-bi-appsrvr</Name>
@@ -64277,10 +64315,9 @@ Generated 03/19/2023 18:43:22-->
     <Port>
         <Number>8077</Number>
         <Protocol>tcp</Protocol>
-        <Name>mles</Name>
-        <Description>Mles is a client-server data distribution protocol targeted to serve as a lightweight and reliable
-            distributed publish/subscribe database service.
-        </Description>
+        <Name>
+        </Name>
+        <Description>Reserved</Description>
     </Port>
     <Port>
         <Number>8077</Number>
@@ -65429,6 +65466,18 @@ Generated 03/19/2023 18:43:22-->
         <Description>Port for copy discovery</Description>
     </Port>
     <Port>
+        <Number>8448</Number>
+        <Protocol>tcp</Protocol>
+        <Name>matrix-fed</Name>
+        <Description>Matrix Federation Protocol</Description>
+    </Port>
+    <Port>
+        <Number>8448</Number>
+        <Protocol>udp</Protocol>
+        <Name>record</Name>
+        <Description>Reserved</Description>
+    </Port>
+    <Port>
         <Number>8450</Number>
         <Protocol>tcp</Protocol>
         <Name>npmp</Name>
@@ -65718,6 +65767,18 @@ Generated 03/19/2023 18:43:22-->
     </Port>
     <Port>
         <Number>8666</Number>
+        <Protocol>udp</Protocol>
+        <Name>record</Name>
+        <Description>Reserved</Description>
+    </Port>
+    <Port>
+        <Number>8668</Number>
+        <Protocol>tcp</Protocol>
+        <Name>spartan</Name>
+        <Description>Spartan management</Description>
+    </Port>
+    <Port>
+        <Number>8668</Number>
         <Protocol>udp</Protocol>
         <Name>record</Name>
         <Description>Reserved</Description>
@@ -69271,8 +69332,8 @@ Generated 03/19/2023 18:43:22-->
     <Port>
         <Number>10321</Number>
         <Protocol>tcp</Protocol>
-        <Name>cosir</Name>
-        <Description>Computer Op System Information Report</Description>
+        <Name>record</Name>
+        <Description>Reserved</Description>
     </Port>
     <Port>
         <Number>10321</Number>
@@ -70599,6 +70660,18 @@ Generated 03/19/2023 18:43:22-->
     </Port>
     <Port>
         <Number>13823</Number>
+        <Protocol>udp</Protocol>
+        <Name>record</Name>
+        <Description>Reserved</Description>
+    </Port>
+    <Port>
+        <Number>13832</Number>
+        <Protocol>tcp</Protocol>
+        <Name>a-trust-rpc</Name>
+        <Description>Certificate Management and Issuing</Description>
+    </Port>
+    <Port>
+        <Number>13832</Number>
         <Protocol>udp</Protocol>
         <Name>record</Name>
         <Description>Reserved</Description>
@@ -73362,6 +73435,18 @@ Generated 03/19/2023 18:43:22-->
         <Protocol>udp</Protocol>
         <Name>icl-twobase10</Name>
         <Description>icl-twobase10</Description>
+    </Port>
+    <Port>
+        <Number>25100</Number>
+        <Protocol>tcp</Protocol>
+        <Name>db2c-tls</Name>
+        <Description>IBM Db2 Client Interface - Encrypted</Description>
+    </Port>
+    <Port>
+        <Number>25100</Number>
+        <Protocol>udp</Protocol>
+        <Name>record</Name>
+        <Description>Reserved</Description>
     </Port>
     <Port>
         <Number>25471</Number>

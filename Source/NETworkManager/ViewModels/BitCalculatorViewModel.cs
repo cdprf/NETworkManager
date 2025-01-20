@@ -2,20 +2,26 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using log4net;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using NETworkManager.Localization.Resources;
+using NETworkManager.Models.Export;
 using NETworkManager.Models.Network;
 using NETworkManager.Settings;
 using NETworkManager.Utilities;
+using NETworkManager.Views;
 
 namespace NETworkManager.ViewModels;
 
 public class BitCalculatorViewModel : ViewModelBase
 {
     #region Variables
+    private readonly IDialogCoordinator _dialogCoordinator;
 
     private static readonly ILog Log = LogManager.GetLogger(typeof(BitCalculatorViewModel));
 
@@ -121,9 +127,10 @@ public class BitCalculatorViewModel : ViewModelBase
 
     #region Constructor, load settings
 
-    public BitCalculatorViewModel()
+    public BitCalculatorViewModel(IDialogCoordinator instance)
     {
         _isLoading = true;
+        _dialogCoordinator = instance;
 
         InputHistoryView = CollectionViewSource.GetDefaultView(SettingsManager.Current.BitCalculator_InputHistory);
 
@@ -155,6 +162,51 @@ public class BitCalculatorViewModel : ViewModelBase
     private void CalculateAction()
     {
         Calculate();
+    }
+
+    public ICommand ExportCommand => new RelayCommand(_ => ExportAction().ConfigureAwait(false));
+
+    private async Task ExportAction()
+    {
+        var customDialog = new CustomDialog
+        {
+            Title = Strings.Export
+        };
+
+        var exportViewModel = new ExportViewModel(async instance =>
+            {
+                await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+
+                try
+                {
+                    ExportManager.Export(instance.FilePath, instance.FileType,
+                        [Result]);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("Error while exporting data as " + instance.FileType, ex);
+                    
+                    var settings = AppearanceManager.MetroDialog;
+                    settings.AffirmativeButtonText = Strings.OK;
+
+                    await _dialogCoordinator.ShowMessageAsync(this, Strings.Error,
+                        Strings.AnErrorOccurredWhileExportingTheData + Environment.NewLine +
+                        Environment.NewLine + ex.Message, MessageDialogStyle.Affirmative, settings);
+                }
+
+                SettingsManager.Current.BitCalculator_ExportFileType = instance.FileType;
+                SettingsManager.Current.BitCalculator_ExportFilePath = instance.FilePath;
+            }, _ => { _dialogCoordinator.HideMetroDialogAsync(this, customDialog); }, [
+                ExportFileType.Csv, ExportFileType.Xml, ExportFileType.Json
+            ], false, SettingsManager.Current.BitCalculator_ExportFileType,
+            SettingsManager.Current.BitCalculator_ExportFilePath);
+
+        customDialog.Content = new ExportDialog
+        {
+            DataContext = exportViewModel
+        };
+
+        await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
     }
 
     #endregion

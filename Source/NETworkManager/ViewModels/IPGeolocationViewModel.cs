@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using Dragablz;
 using log4net;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -29,6 +28,7 @@ public class IPGeolocationViewModel : ViewModelBase
 
     private readonly Guid _tabId;
     private bool _firstLoad = true;
+    private bool _closed;
 
     private string _host;
 
@@ -130,6 +130,8 @@ public class IPGeolocationViewModel : ViewModelBase
     {
         _dialogCoordinator = instance;
 
+        ConfigurationManager.Current.IPGeolocationTabCount++;
+
         _tabId = tabId;
         Host = host;
 
@@ -171,46 +173,11 @@ public class IPGeolocationViewModel : ViewModelBase
         Query().ConfigureAwait(false);
     }
 
-    public ICommand ExportCommand => new RelayCommand(_ => ExportAction().ConfigureAwait(false));
+    public ICommand ExportCommand => new RelayCommand(_ => ExportAction());
 
-    private async Task ExportAction()
+    private void ExportAction()
     {
-        var customDialog = new CustomDialog
-        {
-            Title = Strings.Export
-        };
-
-        var exportViewModel = new ExportViewModel(async instance =>
-        {
-            await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
-
-            try
-            {
-                // ExportManager.Export(instance.FilePath, Result);
-            }
-            catch (Exception ex)
-            {
-                var settings = AppearanceManager.MetroDialog;
-                settings.AffirmativeButtonText = Strings.OK;
-
-                await _dialogCoordinator.ShowMessageAsync(this, Strings.Error,
-                    Strings.AnErrorOccurredWhileExportingTheData + Environment.NewLine + Environment.NewLine +
-                    ex.Message, MessageDialogStyle.Affirmative, settings);
-            }
-
-            SettingsManager.Current.Whois_ExportFileType = instance.FileType;
-            SettingsManager.Current.Whois_ExportFilePath = instance.FilePath;
-        }, _ => { _dialogCoordinator.HideMetroDialogAsync(this, customDialog); }, new[]
-        {
-            ExportFileType.Txt
-        }, false, SettingsManager.Current.Whois_ExportFileType, SettingsManager.Current.Whois_ExportFilePath);
-
-        customDialog.Content = new ExportDialog
-        {
-            DataContext = exportViewModel
-        };
-
-        await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+        Export().ConfigureAwait(false);
     }
 
     #endregion
@@ -225,12 +192,7 @@ public class IPGeolocationViewModel : ViewModelBase
 
         Result = null;
 
-        // Change the tab title (not nice, but it works)
-        var window = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
-
-        if (window != null)
-            foreach (var tabablzControl in VisualTreeHelper.FindVisualChildren<TabablzControl>(window))
-                tabablzControl.Items.OfType<DragablzTabItem>().First(x => x.Id == _tabId).Header = Host;
+        DragablzTabItem.SetTabHeader(_tabId, Host);
 
         try
         {
@@ -271,8 +233,60 @@ public class IPGeolocationViewModel : ViewModelBase
         IsRunning = false;
     }
 
+    private async Task Export()
+    {
+        var window = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
+
+        var customDialog = new CustomDialog
+        {
+            Title = Strings.Export
+        };
+
+        var exportViewModel = new ExportViewModel(async instance =>
+            {
+                await _dialogCoordinator.HideMetroDialogAsync(window, customDialog);
+
+                try
+                {
+                    ExportManager.Export(instance.FilePath, instance.FileType,
+                        [Result]);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("Error while exporting data as " + instance.FileType, ex);
+                    
+                    var settings = AppearanceManager.MetroDialog;
+                    settings.AffirmativeButtonText = Strings.OK;
+
+                    await _dialogCoordinator.ShowMessageAsync(window, Strings.Error,
+                        Strings.AnErrorOccurredWhileExportingTheData + Environment.NewLine +
+                        Environment.NewLine + ex.Message, MessageDialogStyle.Affirmative, settings);
+                }
+
+                SettingsManager.Current.IPGeolocation_ExportFileType = instance.FileType;
+                SettingsManager.Current.IPGeolocation_ExportFilePath = instance.FilePath;
+            }, _ => { _dialogCoordinator.HideMetroDialogAsync(window, customDialog); }, [
+                ExportFileType.Csv, ExportFileType.Xml, ExportFileType.Json
+            ], false, SettingsManager.Current.IPGeolocation_ExportFileType,
+            SettingsManager.Current.IPGeolocation_ExportFilePath);
+
+        customDialog.Content = new ExportDialog
+        {
+            DataContext = exportViewModel
+        };
+
+        await _dialogCoordinator.ShowMetroDialogAsync(window, customDialog);
+    }
+
     public void OnClose()
     {
+        // Prevent multiple calls
+        if (_closed)
+            return;
+
+        _closed = true;
+
+        ConfigurationManager.Current.IPGeolocationTabCount--;
     }
 
     private void AddHostToHistory(string host)

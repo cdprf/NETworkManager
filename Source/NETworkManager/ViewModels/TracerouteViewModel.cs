@@ -10,7 +10,6 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Dragablz;
 using log4net;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -29,7 +28,6 @@ namespace NETworkManager.ViewModels;
 public class TracerouteViewModel : ViewModelBase
 {
     #region Variables
-
     private static readonly ILog Log = LogManager.GetLogger(typeof(TracerouteViewModel));
 
     private readonly IDialogCoordinator _dialogCoordinator;
@@ -37,6 +35,7 @@ public class TracerouteViewModel : ViewModelBase
 
     private readonly Guid _tabId;
     private bool _firstLoad = true;
+    private bool _closed;
 
     private string _host;
 
@@ -171,6 +170,8 @@ public class TracerouteViewModel : ViewModelBase
     {
         _dialogCoordinator = instance;
 
+        ConfigurationManager.Current.TracerouteTabCount++;
+
         _tabId = tabId;
         Host = host;
 
@@ -282,12 +283,7 @@ public class TracerouteViewModel : ViewModelBase
 
         Results.Clear();
 
-        // Change the tab title (not nice, but it works)
-        var window = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
-
-        if (window != null)
-            foreach (var tabablzControl in VisualTreeHelper.FindVisualChildren<TabablzControl>(window))
-                tabablzControl.Items.OfType<DragablzTabItem>().First(x => x.Id == _tabId).Header = Host;
+        DragablzTabItem.SetTabHeader(_tabId, Host);
 
         _cancellationTokenSource = new CancellationTokenSource();
 
@@ -342,6 +338,8 @@ public class TracerouteViewModel : ViewModelBase
 
     private async Task Export()
     {
+        var window = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
+
         var customDialog = new CustomDialog
         {
             Title = Strings.Export
@@ -349,7 +347,7 @@ public class TracerouteViewModel : ViewModelBase
 
         var exportViewModel = new ExportViewModel(async instance =>
             {
-                await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                await _dialogCoordinator.HideMetroDialogAsync(window, customDialog);
 
                 try
                 {
@@ -360,18 +358,21 @@ public class TracerouteViewModel : ViewModelBase
                 }
                 catch (Exception ex)
                 {
+                    Log.Error("Error while exporting data as " + instance.FileType, ex);
+                    
                     var settings = AppearanceManager.MetroDialog;
                     settings.AffirmativeButtonText = Strings.OK;
 
-                    await _dialogCoordinator.ShowMessageAsync(this, Strings.Error,
+                    await _dialogCoordinator.ShowMessageAsync(window, Strings.Error,
                         Strings.AnErrorOccurredWhileExportingTheData + Environment.NewLine +
                         Environment.NewLine + ex.Message, MessageDialogStyle.Affirmative, settings);
                 }
 
                 SettingsManager.Current.Traceroute_ExportFileType = instance.FileType;
                 SettingsManager.Current.Traceroute_ExportFilePath = instance.FilePath;
-            }, _ => { _dialogCoordinator.HideMetroDialogAsync(this, customDialog); },
-            new[] { ExportFileType.Csv, ExportFileType.Xml, ExportFileType.Json }, true,
+            }, _ => { _dialogCoordinator.HideMetroDialogAsync(window, customDialog); },
+            [ExportFileType.Csv, ExportFileType.Xml, ExportFileType.Json],
+            true,
             SettingsManager.Current.Traceroute_ExportFileType, SettingsManager.Current.Traceroute_ExportFilePath
         );
 
@@ -380,7 +381,7 @@ public class TracerouteViewModel : ViewModelBase
             DataContext = exportViewModel
         };
 
-        await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+        await _dialogCoordinator.ShowMetroDialogAsync(window, customDialog);
     }
 
     private void AddHostToHistory(string host)
@@ -399,8 +400,17 @@ public class TracerouteViewModel : ViewModelBase
 
     public void OnClose()
     {
+        // Prevent multiple calls
+        if (_closed)
+            return;
+
+        _closed = true;
+
+        // Stop trace
         if (IsRunning)
             StopTrace();
+
+        ConfigurationManager.Current.TracerouteTabCount--;
     }
 
     #endregion

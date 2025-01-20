@@ -1,4 +1,23 @@
-﻿using System;
+﻿using log4net;
+using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.SimpleChildWindow;
+using NETworkManager.Controls;
+using NETworkManager.Documentation;
+using NETworkManager.Localization;
+using NETworkManager.Localization.Resources;
+using NETworkManager.Models;
+using NETworkManager.Models.AWS;
+using NETworkManager.Models.EventSystem;
+using NETworkManager.Models.Network;
+using NETworkManager.Models.PowerShell;
+using NETworkManager.Models.PuTTY;
+using NETworkManager.Profiles;
+using NETworkManager.Settings;
+using NETworkManager.Update;
+using NETworkManager.Utilities;
+using NETworkManager.ViewModels;
+using NETworkManager.Views;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -19,24 +38,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Threading;
-using log4net;
-using MahApps.Metro.Controls.Dialogs;
-using NETworkManager.Controls;
-using NETworkManager.Documentation;
-using NETworkManager.Localization;
-using NETworkManager.Localization.Resources;
-using NETworkManager.Models;
-using NETworkManager.Models.AWS;
-using NETworkManager.Models.EventSystem;
-using NETworkManager.Models.Network;
-using NETworkManager.Models.PowerShell;
-using NETworkManager.Models.PuTTY;
-using NETworkManager.Profiles;
-using NETworkManager.Settings;
-using NETworkManager.Update;
-using NETworkManager.Utilities;
-using NETworkManager.ViewModels;
-using NETworkManager.Views;
+using Dragablz;
 using Application = System.Windows.Application;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
@@ -70,7 +72,7 @@ public sealed partial class MainWindow : INotifyPropertyChanged
             // Update DNS server if changed in the settings
             case nameof(SettingsInfo.Network_UseCustomDNSServer):
             case nameof(SettingsInfo.Network_CustomDNSServer):
-                ConfigureDNS();
+                ConfigureDNSServer();
 
                 break;
 
@@ -126,6 +128,21 @@ public sealed partial class MainWindow : INotifyPropertyChanged
 
     private bool _isInTray;
     private bool _isClosing;
+
+    private bool _isWelcomeWindowOpen;
+
+    public bool IsWelcomeWindowOpen
+    {
+        get => _isWelcomeWindowOpen;
+        set
+        {
+            if (value == _isWelcomeWindowOpen)
+                return;
+
+            _isWelcomeWindowOpen = value;
+            OnPropertyChanged();
+        }
+    }
 
     private bool _applicationViewIsExpanded;
 
@@ -314,6 +331,21 @@ public sealed partial class MainWindow : INotifyPropertyChanged
         }
     }
 
+    private bool _flyoutRunCommandIsOpen;
+
+    public bool FlyoutRunCommandIsOpen
+    {
+        get => _flyoutRunCommandIsOpen;
+        set
+        {
+            if (value == _flyoutRunCommandIsOpen)
+                return;
+
+            _flyoutRunCommandIsOpen = value;
+            OnPropertyChanged();
+        }
+    }
+
     private bool _isRestartRequired;
 
     public bool IsRestartRequired
@@ -436,8 +468,8 @@ public sealed partial class MainWindow : INotifyPropertyChanged
         // Load and change appearance
         AppearanceManager.Load();
 
-        // Load and configure DNS
-        ConfigureDNS();
+        // Load and configure DNS server
+        ConfigureDNSServer();
 
         // Set window title
         Title = $"NETworkManager {AssemblyManager.Current.Version}";
@@ -472,14 +504,14 @@ public sealed partial class MainWindow : INotifyPropertyChanged
         // Show welcome dialog
         if (SettingsManager.Current.WelcomeDialog_Show)
         {
-            var customDialog = new CustomDialog
-            {
-                Title = Strings.Welcome
-            };
+
+            var x = new WelcomeChildWindow();
 
             var welcomeViewModel = new WelcomeViewModel(async instance =>
             {
-                await this.HideMetroDialogAsync(customDialog);
+                IsWelcomeWindowOpen = false;
+
+                x.IsOpen = false;
 
                 // Set settings based on user choice
                 SettingsManager.Current.Update_CheckForUpdatesAtStartup = instance.CheckForUpdatesAtStartup;
@@ -493,7 +525,7 @@ public sealed partial class MainWindow : INotifyPropertyChanged
 
                 // Generate lists at runtime
                 SettingsManager.Current.General_ApplicationList =
-                    new ObservableSetCollection<ApplicationInfo>(ApplicationManager.GetList());
+                    new ObservableSetCollection<ApplicationInfo>(ApplicationManager.GetDefaultList());
                 SettingsManager.Current.IPScanner_CustomCommands =
                     new ObservableCollection<CustomCommandInfo>(IPScannerCustomCommand.GetDefaultList());
                 SettingsManager.Current.PortScanner_PortProfiles =
@@ -531,12 +563,11 @@ public sealed partial class MainWindow : INotifyPropertyChanged
                 Load();
             });
 
-            customDialog.Content = new WelcomeDialog
-            {
-                DataContext = welcomeViewModel
-            };
+            x.DataContext = welcomeViewModel;
 
-            await this.ShowMetroDialogAsync(customDialog).ConfigureAwait(true);
+            IsWelcomeWindowOpen = true;
+
+            await this.ShowChildWindowAsync(x);
         }
         else
         {
@@ -639,9 +670,10 @@ public sealed partial class MainWindow : INotifyPropertyChanged
     {
         _isApplicationViewLoading = true;
 
-        Applications = new CollectionViewSource { Source = SettingsManager.Current.General_ApplicationList }.View;
-        Applications.SortDescriptions.Add(
-            new SortDescription(nameof(ApplicationInfo.Name), ListSortDirection.Ascending));
+        Applications = new CollectionViewSource
+        {
+            Source = SettingsManager.Current.General_ApplicationList
+        }.View;
 
         Applications.Filter = o =>
         {
@@ -667,11 +699,15 @@ public sealed partial class MainWindow : INotifyPropertyChanged
 
         _isApplicationViewLoading = false;
 
-        // Select the application        
-        SelectedApplication = Applications.Cast<ApplicationInfo>().FirstOrDefault(x =>
-            x.Name == (CommandLineManager.Current.Application != ApplicationName.None
-                ? CommandLineManager.Current.Application
-                : SettingsManager.Current.General_DefaultApplicationViewName));
+        // Select the application
+        // Set application via command line, or select the default one, fallback to the first visible one
+        var applicationList = Applications.Cast<ApplicationInfo>().ToArray();
+
+        if (CommandLineManager.Current.Application != ApplicationName.None)
+            SelectedApplication = applicationList.FirstOrDefault(x => x.Name == CommandLineManager.Current.Application);
+        else
+            SelectedApplication = applicationList.FirstOrDefault(x => x.IsDefault) ??
+                                  applicationList.FirstOrDefault(x => x.IsVisible);
 
         // Scroll into view
         if (SelectedApplication != null)
@@ -1209,7 +1245,7 @@ public sealed partial class MainWindow : INotifyPropertyChanged
     {
         ConfigurationManager.OnDialogOpen();
 
-        FlyoutRunCommand.IsOpen = true;
+        FlyoutRunCommandIsOpen = true;
     }
 
     public ICommand RunCommandDoCommand => new RelayCommand(_ => RunCommandDoAction());
@@ -1285,24 +1321,24 @@ public sealed partial class MainWindow : INotifyPropertyChanged
         }
 
         // Close the flyout
-        RunCommandFlyoutClose();
+        RunCommandFlyoutClose(true);
     }
 
     /// <summary>
     ///     Close the run command flyout and clear the search.
     /// </summary>
-    private void RunCommandFlyoutClose()
+    private void RunCommandFlyoutClose(bool clearSearch = false)
     {
-        if (!FlyoutRunCommand.IsOpen)
+        if (!FlyoutRunCommandIsOpen)
             return;
 
-        FlyoutRunCommand.AreAnimationsEnabled = false;
-        FlyoutRunCommand.IsOpen = false;
+        FlyoutRunCommandIsOpen = false;
 
         ConfigurationManager.OnDialogClose();
 
         // Clear the search
-        RunCommandSearch = string.Empty;
+        if (clearSearch)
+            RunCommandSearch = string.Empty;
     }
 
     #endregion
@@ -1502,7 +1538,9 @@ public sealed partial class MainWindow : INotifyPropertyChanged
     private void CheckForUpdates()
     {
         var updater = new Updater();
+
         updater.UpdateAvailable += Updater_UpdateAvailable;
+
         updater.CheckOnGitHub(Properties.Resources.NETworkManager_GitHub_User,
             Properties.Resources.NETworkManager_GitHub_Repo, AssemblyManager.Current.Version,
             SettingsManager.Current.Update_CheckForPreReleases);
@@ -1518,9 +1556,14 @@ public sealed partial class MainWindow : INotifyPropertyChanged
 
     #endregion
 
-    #region Handle WndProc messages (Single instance, handle HotKeys)
+    #region Handle WndProc messages (Single instance, handle HotKeys, handle window size events)
 
     private HwndSource _hwndSource;
+
+    private const int WmExitSizeMove = 0x232;
+    private const int WmSysCommand = 0x0112;
+    private const int ScMaximize = 0xF030;
+    private const int ScRestore = 0xF120;
 
     // This is called after MainWindow() and before OnContentRendered() --> to register hotkeys...
     protected override void OnSourceInitialized(EventArgs e)
@@ -1541,9 +1584,53 @@ public sealed partial class MainWindow : INotifyPropertyChanged
         {
             ShowWindow();
             handled = true;
+
+            return IntPtr.Zero;
         }
 
+        // Window size events
+        switch (msg)
+        {
+            // Handle window resize and move events
+            case WmExitSizeMove:
+                UpdateOnWindowResize();
+                break;
+
+            // Handle system commands (like maximize and restore)
+            case WmSysCommand:
+                
+                switch (wParam.ToInt32())
+                {
+                    // Window is maximized
+                    case ScMaximize:
+                    // Window is restored (back to normal size from maximized state)
+                    case ScRestore:
+                        UpdateOnWindowResize();
+                        break;
+                }
+
+                break;
+        }
+
+        handled = false;
+
         return IntPtr.Zero;
+    }
+    
+    private void UpdateOnWindowResize()
+    {
+        foreach (var tabablzControl in VisualTreeHelper.FindVisualChildren<TabablzControl>(this))
+        {
+            // Skip if no items
+            if (tabablzControl.Items.Count == 0)
+                continue;
+
+            foreach (var item in tabablzControl.Items.OfType<DragablzTabItem>())
+            {
+                if (item.View is RemoteDesktopControl control)
+                    control.UpdateOnWindowResize();
+            }
+        }
     }
 
     #endregion
@@ -1564,7 +1651,7 @@ public sealed partial class MainWindow : INotifyPropertyChanged
      *  1  | ShowWindow()
      */
 
-    private readonly List<int> _registeredHotKeys = new();
+    private readonly List<int> _registeredHotKeys = [];
 
     private void RegisterHotKeys()
     {
@@ -1833,9 +1920,9 @@ public sealed partial class MainWindow : INotifyPropertyChanged
         Activate();
     }
 
-    private void ConfigureDNS()
+    private void ConfigureDNSServer()
     {
-        Log.Info("Configure application DNS...");
+        Log.Info("Configure application DNS servers...");
 
         DNSClientSettings dnsSettings = new();
 
@@ -1845,10 +1932,9 @@ public sealed partial class MainWindow : INotifyPropertyChanged
             {
                 Log.Info($"Use custom DNS servers ({SettingsManager.Current.Network_CustomDNSServer})...");
 
-                List<(string Server, int Port)> dnsServers = new();
-
-                foreach (var dnsServer in SettingsManager.Current.Network_CustomDNSServer.Split(";"))
-                    dnsServers.Add((dnsServer, 53));
+                List<(string Server, int Port)> dnsServers = SettingsManager.Current.Network_CustomDNSServer.Split(";")
+                    .Select(dnsServer => (dnsServer, 53))
+                    .ToList();
 
                 dnsSettings.UseCustomDNSServers = true;
                 dnsSettings.DNSServers = dnsServers;
@@ -1856,22 +1942,15 @@ public sealed partial class MainWindow : INotifyPropertyChanged
             else
             {
                 Log.Info(
-                    $"Custom DNS servers could not be set (Setting \"{nameof(SettingsManager.Current.Network_CustomDNSServer)}\" has value \"{SettingsManager.Current.Network_CustomDNSServer}\")! Fallback to Windows DNS servers...");
+                    $"Custom DNS servers could not be set (Setting \"{nameof(SettingsManager.Current.Network_CustomDNSServer)}\" has value \"{SettingsManager.Current.Network_CustomDNSServer}\")! Fallback to Windows default DNS servers...");
             }
         }
         else
         {
-            Log.Info("Use Windows DNS servers...");
+            Log.Info("Use Windows default DNS servers...");
         }
 
         DNSClient.GetInstance().Configure(dnsSettings);
-    }
-
-    private void UpdateDNS()
-    {
-        Log.Info("Update Windows DNS servers...");
-
-        DNSClient.GetInstance().UpdateFromWindows();
     }
 
     private void WriteDefaultPowerShellProfileToRegistry()
@@ -1879,7 +1958,7 @@ public sealed partial class MainWindow : INotifyPropertyChanged
         if (!SettingsManager.Current.Appearance_PowerShellModifyGlobalProfile)
             return;
 
-        HashSet<string> paths = new();
+        HashSet<string> paths = [];
 
         // PowerShell
         if (!string.IsNullOrEmpty(SettingsManager.Current.PowerShell_ApplicationFilePath) &&
@@ -1912,17 +1991,25 @@ public sealed partial class MainWindow : INotifyPropertyChanged
         _isNetworkChanging = true;
 
         // Wait, because the event may be triggered several times.
-        await Task.Delay(GlobalStaticConfiguration.StatusWindowDelayBeforeOpen);
+        await Task.Delay(GlobalStaticConfiguration.NetworkChangeDetectionDelay);
 
         Log.Info("Network availability or address has changed!");
 
         // Update DNS server if network changed
         if (!SettingsManager.Current.Network_UseCustomDNSServer)
-            UpdateDNS();
+        {
+            Log.Info("Update Windows default DNS servers...");
+            DNSClient.GetInstance().UpdateWindowsDNSSever();
+        }
 
         // Show status window on network change
         if (SettingsManager.Current.Status_ShowWindowOnNetworkChange)
-            await Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate { OpenStatusWindow(true); }));
+        {
+            await Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate
+            {
+                OpenStatusWindow(true);
+            }));
+        }
 
         _isNetworkChanging = false;
     }

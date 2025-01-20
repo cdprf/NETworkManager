@@ -52,7 +52,7 @@
             </Grid.ColumnDefinitions>
             <Border BorderThickness="0,0,1,0" BorderBrush="{DynamicResource MahApps.Brushes.Gray8}">
                 <ScrollViewer ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback"
-                              Style="{StaticResource FadeOutScrollViewer}">
+                              Margin="0,0,10,0">
                     <ListBox x:Name="ListBoxViews" ItemsSource="{Binding ProfileViews}" Margin="0,0,10,0">
                         <ListBox.Resources>
                             <wpfHelpers:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
@@ -1271,7 +1271,7 @@
                     <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource ProfileTabItem}" />
                 </TabControl.Resources>
                 <TabItem Header="{x:Static localization:Strings.General}">
-                    <ScrollViewer Style="{StaticResource DefaultScrollViewer}" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                         <StackPanel>
                             <Grid>
                                 <Grid.Resources>
@@ -1279,6 +1279,8 @@
                                     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource DefaultTextBox}" />
                                 </Grid.Resources>
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="10" />
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="10" />
                                     <RowDefinition Height="Auto" />
@@ -1296,7 +1298,7 @@
                                 <TextBlock Grid.Column="0" Grid.Row="0" Text="{x:Static localization:Strings.Name}" />
                                 <TextBox x:Name="TextBoxName" GotFocus="TextBoxName_OnGotFocus"
                                          TextChanged="TextBoxName_OnTextChanged" Grid.Column="2" Grid.Row="0"
-                                         mah:TextBoxHelper.Watermark="{x:Static localization:StaticStrings.ExampleRemoteDesktopProfileName}">
+                                         mah:TextBoxHelper.Watermark="{x:Static localization:StaticStrings.ExampleProfileName}">
                                     <TextBox.Text>
                                         <Binding Path="Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                             <Binding.ValidationRules>
@@ -1364,8 +1366,20 @@
                                         <Style TargetType="{x:Type ToolTip}" BasedOn="{StaticResource WarnToolTip}" />
                                     </Rectangle.Resources>
                                 </Rectangle>
-                                <TextBlock Grid.Column="0" Grid.Row="4" Text="{x:Static localization:Strings.Group}" />
-                                <ComboBox x:Name="ComboBoxGroup" Grid.Column="2" Grid.Row="4"
+                                <TextBlock Grid.Column="0" Grid.Row="4" 
+                                           Text="{x:Static Member=localization:Strings.Description}" 
+                                           Margin="0,5,0,0"
+                                           VerticalAlignment="Top" />
+                                <TextBox Grid.Column="2" Grid.Row="4"
+                                         AcceptsReturn="True"
+                                         TextWrapping="Wrap"
+                                         VerticalScrollBarVisibility="Auto"
+                                         VerticalContentAlignment="Top"
+                                         Height="150"
+                                         Text="{Binding Path=Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         mah:TextBoxHelper.Watermark="{x:Static Member=localization:Strings.ExampleProfileDescription}" />
+                                <TextBlock Grid.Column="0" Grid.Row="6" Text="{x:Static localization:Strings.Group}" />
+                                <ComboBox x:Name="ComboBoxGroup" Grid.Column="2" Grid.Row="6"
                                           Style="{StaticResource EditableComboBox}" ItemsSource="{Binding Groups}"
                                           mah:TextBoxHelper.Watermark="{x:Static localization:StaticStrings.ExampleGroupServers}">
                                     <ComboBox.Text>
@@ -1377,23 +1391,23 @@
                                         </Binding>
                                     </ComboBox.Text>
                                 </ComboBox>
-                                <TextBlock Grid.Column="0" Grid.Row="6" Text="{x:Static localization:Strings.Tags}" />
-                                <TextBox Grid.Column="2" Grid.Row="6"
-                                         Text="{Binding Tags, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         mah:TextBoxHelper.Watermark="{x:Static localization:StaticStrings.ExampleTags}" />
+                                <TextBlock Grid.Column="0" Grid.Row="8" Text="{x:Static Member=localization:Strings.Tags}" />
+                                <TextBox Grid.Column="2" Grid.Row="8"
+                                         Text="{Binding Path=Tags, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         mah:TextBoxHelper.Watermark="{x:Static Member=localization:StaticStrings.ExampleTags}" />
                                 <Rectangle Width="24" Height="24" Grid.Column="3" Grid.Row="6"
-                                           ToolTip="{x:Static localization:Strings.HelpMessage_Tags}"
-                                           Style="{StaticResource HelpImageRectangle}" Margin="10,0,0,0">
+                                           ToolTip="{x:Static Member=localization:Strings.HelpMessage_Tags}"
+                                           Style="{StaticResource ResourceKey=HelpImageRectangle}" Margin="10,0,0,0">
                                     <Rectangle.Resources>
-                                        <Style TargetType="{x:Type ToolTip}" BasedOn="{StaticResource HelpToolTip}" />
+                                        <Style TargetType="{x:Type TypeName=ToolTip}" BasedOn="{StaticResource ResourceKey=HelpToolTip}" />
                                     </Rectangle.Resources>
                                 </Rectangle>
                             </Grid>
                         </StackPanel>
                     </ScrollViewer>
                 </TabItem>
-                <TabItem Header="{x:Static localization:Strings.NetworkInterface}">
-                    <ScrollViewer Style="{StaticResource DefaultScrollViewer}" HorizontalScrollBarVisibility="Disabled">
+                <TabItem Header="{x:Static Member=localization:Strings.NetworkInterface}">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                         <StackPanel IsEnabled="{Binding NetworkInterface_Enabled}">
                             <RadioButton x:Name="RadioButtonEnableDynamicIPAddress"
                                          GroupName="NetworkInterface_IPAddressConfig"
@@ -1530,7 +1544,7 @@
                     </ScrollViewer>
                 </TabItem>
                 <TabItem Header="{x:Static localization:Strings.IPScanner}">
-                    <ScrollViewer Style="{StaticResource DefaultScrollViewer}" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                         <StackPanel IsEnabled="{Binding IPScanner_Enabled}">
                             <Grid>
                                 <Grid.Resources>
@@ -1591,7 +1605,7 @@
                     </ScrollViewer>
                 </TabItem>
                 <TabItem Header="{x:Static localization:Strings.PortScanner}">
-                    <ScrollViewer Style="{StaticResource DefaultScrollViewer}" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                         <StackPanel IsEnabled="{Binding PortScanner_Enabled}">
                             <Grid>
                                 <Grid.Resources>
@@ -1666,7 +1680,7 @@
                     </ScrollViewer>
                 </TabItem>
                 <TabItem Header="{x:Static localization:Strings.PingMonitor}">
-                    <ScrollViewer Style="{StaticResource DefaultScrollViewer}" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                         <StackPanel IsEnabled="{Binding PingMonitor_Enabled}">
                             <Grid>
                                 <Grid.Resources>
@@ -1727,7 +1741,7 @@
                     </ScrollViewer>
                 </TabItem>
                 <TabItem Header="{x:Static localization:Strings.Traceroute}">
-                    <ScrollViewer Style="{StaticResource DefaultScrollViewer}" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                         <StackPanel IsEnabled="{Binding Traceroute_Enabled}">
                             <Grid>
                                 <Grid.Resources>
@@ -1788,7 +1802,7 @@
                     </ScrollViewer>
                 </TabItem>
                 <TabItem Header="{x:Static localization:Strings.DNSLookup}">
-                    <ScrollViewer Style="{StaticResource DefaultScrollViewer}" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                         <StackPanel IsEnabled="{Binding DNSLookup_Enabled}">
                             <Grid>
                                 <Grid.Resources>
@@ -1847,7 +1861,7 @@
                     </ScrollViewer>
                 </TabItem>
                 <TabItem Header="{x:Static localization:Strings.RemoteDesktop}">
-                    <ScrollViewer Style="{StaticResource DefaultScrollViewer}" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                         <StackPanel IsEnabled="{Binding RemoteDesktop_Enabled}">
                             <Grid>
                                 <Grid.Resources>
@@ -2633,7 +2647,7 @@
                     </ScrollViewer>
                 </TabItem>
                 <TabItem Header="{x:Static localization:Strings.PowerShell}">
-                    <ScrollViewer Style="{StaticResource DefaultScrollViewer}" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                         <StackPanel IsEnabled="{Binding PowerShell_Enabled}" Margin="0,0,0,20">
                             <Grid>
                                 <Grid.Resources>
@@ -2763,7 +2777,7 @@
                     </ScrollViewer>
                 </TabItem>
                 <TabItem Header="{x:Static localization:Strings.PuTTY}">
-                    <ScrollViewer Style="{StaticResource DefaultScrollViewer}" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                         <StackPanel IsEnabled="{Binding PuTTY_Enabled}">
                             <Grid>
                                 <Grid.Resources>
@@ -3080,7 +3094,7 @@
                     </ScrollViewer>
                 </TabItem>
                 <TabItem Header="{x:Static localization:Strings.AWSSessionManager}">
-                    <ScrollViewer Style="{StaticResource DefaultScrollViewer}" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                         <StackPanel IsEnabled="{Binding AWSSessionManager_Enabled}" Margin="0,0,0,20">
                             <Grid>
                                 <Grid.Resources>
@@ -3161,7 +3175,7 @@
                     </ScrollViewer>
                 </TabItem>
                 <TabItem Header="{x:Static localization:Strings.TigerVNC}">
-                    <ScrollViewer Style="{StaticResource DefaultScrollViewer}" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                         <StackPanel IsEnabled="{Binding TigerVNC_Enabled}" Margin="0,0,0,20">
                             <Grid>
                                 <Grid.Resources>
@@ -3248,7 +3262,7 @@
                     </ScrollViewer>
                 </TabItem>
                 <TabItem Header="{x:Static localization:Strings.WebConsole}">
-                    <ScrollViewer Style="{StaticResource DefaultScrollViewer}" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                         <StackPanel IsEnabled="{Binding WebConsole_Enabled}" Margin="0,0,0,20">
                             <Grid>
                                 <Grid.Resources>
@@ -3283,7 +3297,7 @@
                     </ScrollViewer>
                 </TabItem>
                 <TabItem Header="{x:Static localization:Strings.SNMP}">
-                    <ScrollViewer Style="{StaticResource DefaultScrollViewer}" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                         <StackPanel IsEnabled="{Binding SNMP_Enabled}">
                             <Grid>
                                 <Grid.Resources>
@@ -3792,7 +3806,7 @@
                     </ScrollViewer>
                 </TabItem>
                 <TabItem Header="{x:Static localization:Strings.WakeOnLAN}">
-                    <ScrollViewer Style="{StaticResource DefaultScrollViewer}" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                         <StackPanel IsEnabled="{Binding WakeOnLAN_Enabled}" Margin="0,0,0,20">
                             <Grid>
                                 <Grid.Resources>
@@ -3843,7 +3857,7 @@
                     </ScrollViewer>
                 </TabItem>
                 <TabItem Header="{x:Static localization:Strings.Whois}">
-                    <ScrollViewer Style="{StaticResource DefaultScrollViewer}" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                         <StackPanel IsEnabled="{Binding Whois_Enabled}">
                             <Grid>
                                 <Grid.Resources>
@@ -3904,7 +3918,7 @@
                     </ScrollViewer>
                 </TabItem>
                 <TabItem Header="{x:Static localization:Strings.IPGeolocation}">
-                    <ScrollViewer Style="{StaticResource DefaultScrollViewer}" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                         <StackPanel IsEnabled="{Binding IPGeolocation_Enabled}">
                             <Grid>
                                 <Grid.Resources>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--Whois servers by domain from IANA
-Generated 03/19/2023 18:43:27-->
+Generated 04/21/2024 21:20:49-->
 <WhoisServers>
     <WhoisServer>
         <TLD>AAA</TLD>
@@ -12,17 +12,12 @@ Generated 03/19/2023 18:43:27-->
         <Server>whois.nic.aarp</Server>
     </WhoisServer>
     <WhoisServer>
-        <TLD>ABARTH</TLD>
-        <Server>whois.afilias-srs.net</Server>
-    </WhoisServer>
-    <WhoisServer>
         <TLD>ABB</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.abb</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>ABBOTT</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.abbott</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>ABBVIE</TLD>
@@ -55,8 +50,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>ACCENTURE</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.accenture</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>ACCOUNTANT</TLD>
@@ -122,7 +116,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>AGAKHAN</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.agakhan</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>AGENCY</TLD>
@@ -151,16 +145,12 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>AKDN</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.akdn</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>AL</TLD>
         <Server>
         </Server>
-    </WhoisServer>
-    <WhoisServer>
-        <TLD>ALFAROMEO</TLD>
-        <Server>whois.afilias-srs.net</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>ALIBABA</TLD>
@@ -176,7 +166,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>ALLSTATE</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.allstate</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>ALLY</TLD>
@@ -261,7 +251,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>APPLE</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.apple</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>AQ</TLD>
@@ -344,7 +334,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>AUDI</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.audi</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>AUDIBLE</TLD>
@@ -371,10 +361,6 @@ Generated 03/19/2023 18:43:27-->
         <Server>whois.nic.autos</Server>
     </WhoisServer>
     <WhoisServer>
-        <TLD>AVIANCA</TLD>
-        <Server>whois.afilias-srs.net</Server>
-    </WhoisServer>
-    <WhoisServer>
         <TLD>AW</TLD>
         <Server>whois.nic.aw</Server>
     </WhoisServer>
@@ -398,8 +384,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>AZURE</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.azure</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>BA</TLD>
@@ -416,11 +401,6 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>BANAMEX</TLD>
-        <Server>
-        </Server>
-    </WhoisServer>
-    <WhoisServer>
-        <TLD>BANANAREPUBLIC</TLD>
         <Server>
         </Server>
     </WhoisServer>
@@ -458,8 +438,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>BASEBALL</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.baseball</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>BASKETBALL</TLD>
@@ -509,7 +488,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>BEATS</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.beats</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>BEAUTY</TLD>
@@ -541,8 +520,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>BF</TLD>
-        <Server>
-        </Server>
+        <Server>whois.registre.bf</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>BG</TLD>
@@ -550,8 +528,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>BH</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.bh</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>BHARTI</TLD>
@@ -576,8 +553,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>BING</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.bing</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>BINGO</TLD>
@@ -601,7 +577,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>BLACKFRIDAY</TLD>
-        <Server>whois.uniregistry.net</Server>
+        <Server>whois.nic.blackfriday</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>BLOCKBUSTER</TLD>
@@ -613,8 +589,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>BLOOMBERG</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.bloomberg</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>BLUE</TLD>
@@ -622,8 +597,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>BM</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.bm</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>BMS</TLD>
@@ -639,7 +613,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>BNPPARIBAS</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.bnpparibas</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>BO</TLD>
@@ -651,7 +625,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>BOEHRINGER</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.boehringer</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>BOFA</TLD>
@@ -758,8 +732,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>BUZZ</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.buzz</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>BV</TLD>
@@ -908,10 +881,6 @@ Generated 03/19/2023 18:43:27-->
         </Server>
     </WhoisServer>
     <WhoisServer>
-        <TLD>CBS</TLD>
-        <Server>whois.afilias-srs.net</Server>
-    </WhoisServer>
-    <WhoisServer>
         <TLD>CC</TLD>
         <Server>ccwhois.verisign-grs.com</Server>
     </WhoisServer>
@@ -930,7 +899,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>CERN</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.cern</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>CF</TLD>
@@ -1000,7 +969,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>CIPRIANI</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.cipriani</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>CIRCLE</TLD>
@@ -1013,8 +982,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>CITADEL</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.citadel</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>CITI</TLD>
@@ -1029,10 +997,6 @@ Generated 03/19/2023 18:43:27-->
     <WhoisServer>
         <TLD>CITY</TLD>
         <Server>whois.nic.city</Server>
-    </WhoisServer>
-    <WhoisServer>
-        <TLD>CITYEATS</TLD>
-        <Server>whois.nic.cityeats</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>CK</TLD>
@@ -1117,10 +1081,6 @@ Generated 03/19/2023 18:43:27-->
         <Server>whois.verisign-grs.com</Server>
     </WhoisServer>
     <WhoisServer>
-        <TLD>COMCAST</TLD>
-        <Server>whois.nic.comcast</Server>
-    </WhoisServer>
-    <WhoisServer>
         <TLD>COMMBANK</TLD>
         <Server>whois.nic.commbank</Server>
     </WhoisServer>
@@ -1169,10 +1129,6 @@ Generated 03/19/2023 18:43:27-->
         <Server>whois.nic.cooking</Server>
     </WhoisServer>
     <WhoisServer>
-        <TLD>COOKINGCHANNEL</TLD>
-        <Server>whois.nic.cookingchannel</Server>
-    </WhoisServer>
-    <WhoisServer>
         <TLD>COOL</TLD>
         <Server>whois.nic.cool</Server>
     </WhoisServer>
@@ -1219,7 +1175,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>CREDITUNION</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.creditunion</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>CRICKET</TLD>
@@ -1227,13 +1183,11 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>CROWN</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.crown</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>CRS</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.crs</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>CRUISE</TLD>
@@ -1254,8 +1208,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>CV</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.cv</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>CW</TLD>
@@ -1285,7 +1238,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>DABUR</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.dabur</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>DAD</TLD>
@@ -1433,7 +1386,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>DK</TLD>
-        <Server>whois.dk-hostmaster.dk</Server>
+        <Server>whois.punktum.dk</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>DM</TLD>
@@ -1526,7 +1479,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>EDEKA</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.edeka</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>EDU</TLD>
@@ -1551,7 +1504,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>EMERCK</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.emerck</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>ENERGY</TLD>
@@ -1608,10 +1561,6 @@ Generated 03/19/2023 18:43:27-->
         </Server>
     </WhoisServer>
     <WhoisServer>
-        <TLD>ETISALAT</TLD>
-        <Server>whois.centralnic.com</Server>
-    </WhoisServer>
-    <WhoisServer>
         <TLD>EU</TLD>
         <Server>whois.eu</Server>
     </WhoisServer>
@@ -1645,11 +1594,11 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>EXTRASPACE</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.extraspace</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>FAGE</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.fage</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>FAIL</TLD>
@@ -1714,16 +1663,12 @@ Generated 03/19/2023 18:43:27-->
         <Server>whois.fi</Server>
     </WhoisServer>
     <WhoisServer>
-        <TLD>FIAT</TLD>
-        <Server>whois.afilias-srs.net</Server>
-    </WhoisServer>
-    <WhoisServer>
         <TLD>FIDELITY</TLD>
         <Server>whois.nic.fidelity</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>FIDO</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.fido</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>FILM</TLD>
@@ -1822,10 +1767,6 @@ Generated 03/19/2023 18:43:27-->
         </Server>
     </WhoisServer>
     <WhoisServer>
-        <TLD>FOODNETWORK</TLD>
-        <Server>whois.nic.foodnetwork</Server>
-    </WhoisServer>
-    <WhoisServer>
         <TLD>FOOTBALL</TLD>
         <Server>whois.nic.football</Server>
     </WhoisServer>
@@ -1873,10 +1814,6 @@ Generated 03/19/2023 18:43:27-->
     <WhoisServer>
         <TLD>FROGANS</TLD>
         <Server>whois.nic.frogans</Server>
-    </WhoisServer>
-    <WhoisServer>
-        <TLD>FRONTDOOR</TLD>
-        <Server>whois.nic.frontdoor</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>FRONTIER</TLD>
@@ -2005,8 +1942,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>GH</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.gh</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>GI</TLD>
@@ -2071,8 +2007,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>GN</TLD>
-        <Server>
-        </Server>
+        <Server>whois.ande.gov.gn</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>GODADDY</TLD>
@@ -2154,8 +2089,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>GROCERY</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.grocery</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>GROUP</TLD>
@@ -2172,11 +2106,6 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>GU</TLD>
-        <Server>
-        </Server>
-    </WhoisServer>
-    <WhoisServer>
-        <TLD>GUARDIAN</TLD>
         <Server>
         </Server>
     </WhoisServer>
@@ -2261,11 +2190,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>HERMES</TLD>
-        <Server>whois.afilias-srs.net</Server>
-    </WhoisServer>
-    <WhoisServer>
-        <TLD>HGTV</TLD>
-        <Server>whois.nic.hgtv</Server>
+        <Server>whois.nic.hermes</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>HIPHOP</TLD>
@@ -2354,19 +2279,12 @@ Generated 03/19/2023 18:43:27-->
         <Server>whois.nic.hot</Server>
     </WhoisServer>
     <WhoisServer>
-        <TLD>HOTELES</TLD>
-        <Server>
-        </Server>
-    </WhoisServer>
-    <WhoisServer>
         <TLD>HOTELS</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.hotels</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>HOTMAIL</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.hotmail</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>HOUSE</TLD>
@@ -2453,7 +2371,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>IMAMAT</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.imamat</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>IMDB</TLD>
@@ -2551,15 +2469,15 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>ISMAILI</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.ismaili</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>IST</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.ist</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>ISTANBUL</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.istanbul</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>IT</TLD>
@@ -2572,7 +2490,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>ITV</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.itv</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>JAGUAR</TLD>
@@ -2592,7 +2510,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>JEEP</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.jeep</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>JETZT</TLD>
@@ -2608,7 +2526,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>JLL</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.jll</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>JM</TLD>
@@ -2715,16 +2633,11 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>KIDS</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.kids</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>KIM</TLD>
         <Server>whois.nic.kim</Server>
-    </WhoisServer>
-    <WhoisServer>
-        <TLD>KINDER</TLD>
-        <Server>
-        </Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>KINDLE</TLD>
@@ -2818,7 +2731,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>LAMBORGHINI</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.lamborghini</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>LAMER</TLD>
@@ -2827,10 +2740,6 @@ Generated 03/19/2023 18:43:27-->
     <WhoisServer>
         <TLD>LANCASTER</TLD>
         <Server>whois.nic.lancaster</Server>
-    </WhoisServer>
-    <WhoisServer>
-        <TLD>LANCIA</TLD>
-        <Server>whois.afilias-srs.net</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>LAND</TLD>
@@ -2847,7 +2756,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>LASALLE</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.lasalle</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>LAT</TLD>
@@ -2924,8 +2833,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>LIFEINSURANCE</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.lifeinsurance</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>LIFESTYLE</TLD>
@@ -3050,7 +2958,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>LTDA</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.ltda</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>LU</TLD>
@@ -3086,8 +2994,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>MAIF</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.maif</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>MAISON</TLD>
@@ -3127,16 +3034,12 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>MARRIOTT</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.marriott</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>MARSHALLS</TLD>
         <Server>
         </Server>
-    </WhoisServer>
-    <WhoisServer>
-        <TLD>MASERATI</TLD>
-        <Server>whois.nic.maserati</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>MATTEL</TLD>
@@ -3198,8 +3101,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>MERCKMSD</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.merckmsd</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>MG</TLD>
@@ -3216,8 +3118,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>MICROSOFT</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.microsoft</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>MIL</TLD>
@@ -3235,7 +3136,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>MIT</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.mit</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>MITSUBISHI</TLD>
@@ -3247,7 +3148,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>ML</TLD>
-        <Server>whois.dot.ml</Server>
+        <Server>whois.nic.ml</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>MLB</TLD>
@@ -3324,8 +3225,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>MOTO</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.moto</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>MOTORCYCLES</TLD>
@@ -3358,8 +3258,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>MSD</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.msd</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>MT</TLD>
@@ -3385,11 +3284,6 @@ Generated 03/19/2023 18:43:27-->
     <WhoisServer>
         <TLD>MUSIC</TLD>
         <Server>whois.nic.music</Server>
-    </WhoisServer>
-    <WhoisServer>
-        <TLD>MUTUAL</TLD>
-        <Server>
-        </Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>MV</TLD>
@@ -3557,12 +3451,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>NOKIA</TLD>
-        <Server>whois.afilias-srs.net</Server>
-    </WhoisServer>
-    <WhoisServer>
-        <TLD>NORTHWESTERNMUTUAL</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.nokia</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>NORTON</TLD>
@@ -3592,7 +3481,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>NRA</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.nra</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>NRW</TLD>
@@ -3609,8 +3498,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>NYC</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.nyc</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>NZ</TLD>
@@ -3626,8 +3514,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>OFFICE</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.office</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>OKINAWA</TLD>
@@ -3640,11 +3527,6 @@ Generated 03/19/2023 18:43:27-->
     <WhoisServer>
         <TLD>OLAYANGROUP</TLD>
         <Server>whois.nic.olayangroup</Server>
-    </WhoisServer>
-    <WhoisServer>
-        <TLD>OLDNAVY</TLD>
-        <Server>
-        </Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>OLLO</TLD>
@@ -3668,7 +3550,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>ONL</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.onl</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>ONLINE</TLD>
@@ -3680,8 +3562,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>OPEN</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.open</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>ORACLE</TLD>
@@ -3753,11 +3634,6 @@ Generated 03/19/2023 18:43:27-->
         <Server>whois.nic.party</Server>
     </WhoisServer>
     <WhoisServer>
-        <TLD>PASSAGENS</TLD>
-        <Server>
-        </Server>
-    </WhoisServer>
-    <WhoisServer>
         <TLD>PAY</TLD>
         <Server>whois.nic.pay</Server>
     </WhoisServer>
@@ -3810,7 +3686,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>PHOTO</TLD>
-        <Server>whois.uniregistry.net</Server>
+        <Server>whois.nic.photo</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>PHOTOGRAPHY</TLD>
@@ -3830,8 +3706,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>PICTET</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.pictet</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>PICTURES</TLD>
@@ -3847,8 +3722,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>PING</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.ping</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>PINK</TLD>
@@ -3963,7 +3837,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>PROGRESSIVE</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.progressive</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>PROMO</TLD>
@@ -4010,7 +3884,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>PWC</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.pwc</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>PY</TLD>
@@ -4055,8 +3929,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>REALTOR</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.realtor</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>REALTY</TLD>
@@ -4076,7 +3949,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>REDUMBRELLA</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.redumbrella</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>REHAB</TLD>
@@ -4144,7 +4017,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>RICH</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.rich</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>RICHARDLI</TLD>
@@ -4171,11 +4044,6 @@ Generated 03/19/2023 18:43:27-->
         <Server>whois.rotld.ro</Server>
     </WhoisServer>
     <WhoisServer>
-        <TLD>ROCHER</TLD>
-        <Server>
-        </Server>
-    </WhoisServer>
-    <WhoisServer>
         <TLD>ROCKS</TLD>
         <Server>whois.nic.rocks</Server>
     </WhoisServer>
@@ -4185,7 +4053,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>ROGERS</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.rogers</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>ROOM</TLD>
@@ -4314,10 +4182,6 @@ Generated 03/19/2023 18:43:27-->
         <Server>whois2.afilias-grs.net</Server>
     </WhoisServer>
     <WhoisServer>
-        <TLD>SCA</TLD>
-        <Server>whois.nic.sca</Server>
-    </WhoisServer>
-    <WhoisServer>
         <TLD>SCB</TLD>
         <Server>whois.nic.scb</Server>
     </WhoisServer>
@@ -4355,8 +4219,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>SD</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.sd</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>SE</TLD>
@@ -4401,7 +4264,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>SEW</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.sew</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>SEX</TLD>
@@ -4468,10 +4331,6 @@ Generated 03/19/2023 18:43:27-->
         <Server>whois.nic.show</Server>
     </WhoisServer>
     <WhoisServer>
-        <TLD>SHOWTIME</TLD>
-        <Server>whois.afilias-srs.net</Server>
-    </WhoisServer>
-    <WhoisServer>
         <TLD>SI</TLD>
         <Server>whois.register.si</Server>
     </WhoisServer>
@@ -4514,8 +4373,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>SKYPE</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.skype</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>SL</TLD>
@@ -4594,7 +4452,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>SPA</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.spa</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>SPACE</TLD>
@@ -4615,7 +4473,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>SRL</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.srl</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>SS</TLD>
@@ -4627,7 +4485,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>STADA</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.stada</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>STAPLES</TLD>
@@ -4657,7 +4515,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>STOCKHOLM</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.stockholm</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>STORAGE</TLD>
@@ -4780,7 +4638,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>TATTOO</TLD>
-        <Server>whois.uniregistry.net</Server>
+        <Server>whois.nic.tattoo</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>TAX</TLD>
@@ -4824,7 +4682,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>TEMASEK</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.temasek</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>TENNIS</TLD>
@@ -4869,10 +4727,6 @@ Generated 03/19/2023 18:43:27-->
     <WhoisServer>
         <TLD>TIENDA</TLD>
         <Server>whois.nic.tienda</Server>
-    </WhoisServer>
-    <WhoisServer>
-        <TLD>TIFFANY</TLD>
-        <Server>whois.nic.tiffany</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>TIPS</TLD>
@@ -4995,16 +4849,12 @@ Generated 03/19/2023 18:43:27-->
         <Server>whois.nic.travel</Server>
     </WhoisServer>
     <WhoisServer>
-        <TLD>TRAVELCHANNEL</TLD>
-        <Server>whois.nic.travelchannel</Server>
-    </WhoisServer>
-    <WhoisServer>
         <TLD>TRAVELERS</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.travelers</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>TRAVELERSINSURANCE</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.travelersinsurance</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>TRUST</TLD>
@@ -5012,7 +4862,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>TRV</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.trv</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>TT</TLD>
@@ -5021,8 +4871,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>TUBE</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.tube</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>TUI</TLD>
@@ -5155,8 +5004,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>VI</TLD>
-        <Server>
-        </Server>
+        <Server>virgil.nic.vi</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>VIAJES</TLD>
@@ -5168,11 +5016,11 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>VIG</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.vig</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>VIKING</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.viking</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>VILLAS</TLD>
@@ -5221,10 +5069,6 @@ Generated 03/19/2023 18:43:27-->
         <Server>whois.nic.vodka</Server>
     </WhoisServer>
     <WhoisServer>
-        <TLD>VOLKSWAGEN</TLD>
-        <Server>whois.afilias-srs.net</Server>
-    </WhoisServer>
-    <WhoisServer>
         <TLD>VOLVO</TLD>
         <Server>whois.nic.volvo</Server>
     </WhoisServer>
@@ -5247,11 +5091,6 @@ Generated 03/19/2023 18:43:27-->
     <WhoisServer>
         <TLD>VU</TLD>
         <Server>whois.dnrs.vu</Server>
-    </WhoisServer>
-    <WhoisServer>
-        <TLD>VUELOS</TLD>
-        <Server>
-        </Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>WALES</TLD>
@@ -5317,8 +5156,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>WEIR</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.weir</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>WF</TLD>
@@ -5347,8 +5185,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>WINDOWS</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.windows</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>WINE</TLD>
@@ -5401,16 +5238,11 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>XBOX</TLD>
-        <Server>
-        </Server>
+        <Server>whois.nic.xbox</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>XEROX</TLD>
         <Server>whois.nic.xerox</Server>
-    </WhoisServer>
-    <WhoisServer>
-        <TLD>XFINITY</TLD>
-        <Server>whois.nic.xfinity</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>XIHUAN</TLD>
@@ -5564,7 +5396,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>XN--B4W605FERD</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.xn--b4w605ferd</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>XN--BCK1B9A5DRE4C</TLD>
@@ -5594,7 +5426,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>XN--CLCHC0EA0B2G2A9GCD</TLD>
-        <Server>whois.sgnic.sg</Server>
+        <Server>whois.ta.sgnic.sg</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>XN--CZR694B</TLD>
@@ -5786,10 +5618,6 @@ Generated 03/19/2023 18:43:27-->
     <WhoisServer>
         <TLD>XN--MGBA7C0BBN0A</TLD>
         <Server>whois.nic.xn--mgba7c0bbn0a</Server>
-    </WhoisServer>
-    <WhoisServer>
-        <TLD>XN--MGBAAKC7DVF</TLD>
-        <Server>whois.centralnic.com</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>XN--MGBAAM7A8H</TLD>
@@ -6045,7 +5873,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>XN--YFRO4I67O</TLD>
-        <Server>whois.sgnic.sg</Server>
+        <Server>whois.zh.sgnic.sg</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>XN--YGBI2AMMX</TLD>
@@ -6083,8 +5911,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>YE</TLD>
-        <Server>
-        </Server>
+        <Server>whois.y.net.ye</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>YODOBASHI</TLD>
@@ -6125,7 +5952,7 @@ Generated 03/19/2023 18:43:27-->
     </WhoisServer>
     <WhoisServer>
         <TLD>ZARA</TLD>
-        <Server>whois.afilias-srs.net</Server>
+        <Server>whois.nic.zara</Server>
     </WhoisServer>
     <WhoisServer>
         <TLD>ZERO</TLD>

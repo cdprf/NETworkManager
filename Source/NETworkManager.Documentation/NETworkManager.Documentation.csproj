@@ -5,7 +5,7 @@
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>NETworkManager.Documentation</RootNamespace>
         <AssemblyName>NETworkManager.Documentation</AssemblyName>
-        <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
+        <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
         <PlatformTarget>x64</PlatformTarget>
         <SelfContained>false</SelfContained>
@@ -19,6 +19,7 @@
         <None Remove="Licenses\ControlzEx.txt"/>
         <None Remove="Licenses\DnsClient.NET.txt"/>
         <None Remove="Licenses\Dragablz.txt"/>
+        <None Remove="Licenses\GongSolutions.Wpf.DragDrop.txt"/>
         <None Remove="Licenses\IPNetwork.txt"/>
         <None Remove="Licenses\LiveCharts.txt"/>
         <None Remove="Licenses\LoadingIndicators.WPF.txt"/>
@@ -40,6 +41,9 @@
         <Compile Include="..\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs"/>
     </ItemGroup>
     <ItemGroup>
+        <Content Include="Licenses\GongSolutions.Wpf.DragDrop.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
         <Content Include="Licenses\AirspaceFixer.txt">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>

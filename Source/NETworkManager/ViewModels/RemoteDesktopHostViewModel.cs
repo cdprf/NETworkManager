@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Threading;
-using Dragablz;
+﻿using Dragablz;
 using MahApps.Metro.Controls.Dialogs;
 using NETworkManager.Controls;
 using NETworkManager.Localization.Resources;
@@ -20,6 +8,17 @@ using NETworkManager.Profiles;
 using NETworkManager.Settings;
 using NETworkManager.Utilities;
 using NETworkManager.Views;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Threading;
 using RemoteDesktop = NETworkManager.Profiles.Application.RemoteDesktop;
 
 namespace NETworkManager.ViewModels;
@@ -32,6 +31,22 @@ public class RemoteDesktopHostViewModel : ViewModelBase, IProfileManager
     private readonly DispatcherTimer _searchDispatcherTimer = new();
 
     public IInterTabClient InterTabClient { get; }
+
+    private string _interTabPartition;
+
+    public string InterTabPartition
+    {
+        get => _interTabPartition;
+        set
+        {
+            if (value == _interTabPartition)
+                return;
+
+            _interTabPartition = value;
+            OnPropertyChanged();
+        }
+    }
+
     public ObservableCollection<DragablzTabItem> TabItems { get; }
 
     private readonly bool _isLoading;
@@ -180,9 +195,9 @@ public class RemoteDesktopHostViewModel : ViewModelBase, IProfileManager
         _dialogCoordinator = instance;
 
         InterTabClient = new DragablzInterTabClient(ApplicationName.RemoteDesktop);
+        InterTabPartition = ApplicationName.RemoteDesktop.ToString();
 
-        TabItems = new ObservableCollection<DragablzTabItem>();
-        TabItems.CollectionChanged += TabItems_CollectionChanged;
+        TabItems = [];
 
         // Profiles
         SetProfilesView();
@@ -230,7 +245,7 @@ public class RemoteDesktopHostViewModel : ViewModelBase, IProfileManager
     private bool IsDisconnected_CanExecute(object view)
     {
         if (view is RemoteDesktopControl control)
-            return !control.IsConnected;
+            return !control.IsConnected && !control.IsConnecting;
 
         return false;
     }
@@ -266,7 +281,7 @@ public class RemoteDesktopHostViewModel : ViewModelBase, IProfileManager
     private void AdjustScreenAction(object view)
     {
         if (view is RemoteDesktopControl control)
-            control.AdjustScreen();
+            control.AdjustScreen(force: true);
     }
 
     public ICommand SendCtrlAltDelCommand => new RelayCommand(SendCtrlAltDelAction, IsConnected_CanExecute);
@@ -321,7 +336,8 @@ public class RemoteDesktopHostViewModel : ViewModelBase, IProfileManager
 
     private void AddProfileAction()
     {
-        ProfileDialogManager.ShowAddProfileDialog(this, _dialogCoordinator, null, null, ApplicationName.RemoteDesktop)
+        ProfileDialogManager
+            .ShowAddProfileDialog(this, this, _dialogCoordinator, null, null, ApplicationName.RemoteDesktop)
             .ConfigureAwait(false);
     }
 
@@ -493,7 +509,11 @@ public class RemoteDesktopHostViewModel : ViewModelBase, IProfileManager
 
     private void Connect(RemoteDesktopSessionInfo sessionInfo, string header = null)
     {
-        TabItems.Add(new DragablzTabItem(header ?? sessionInfo.Hostname, new RemoteDesktopControl(sessionInfo)));
+        var tabId = Guid.NewGuid();
+
+        TabItems.Add(new DragablzTabItem(header ?? sessionInfo.Hostname, new RemoteDesktopControl(tabId, sessionInfo),
+            tabId));
+
         SelectedTabIndex = TabItems.Count - 1;
     }
 
@@ -631,11 +651,7 @@ public class RemoteDesktopHostViewModel : ViewModelBase, IProfileManager
         IsSearching = false;
     }
 
-    private void TabItems_CollectionChanged(object sender,
-        NotifyCollectionChangedEventArgs e)
-    {
-        ConfigurationManager.Current.RemoteDesktopHasTabs = TabItems.Count > 0;
-    }
-
     #endregion
+
+
 }

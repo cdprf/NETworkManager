@@ -8,7 +8,13 @@ With **IP Geolocation** you can retrieve geolocation information for a fully qua
 
 :::info
 
-IP geolocation data is provided by [ip-api.com](https://ip-api.com/) and the API endpoint `http://ip-api.com/json/<host>` is queried when the information is requested. The free API endpoint is limited to 45 requests per minute, supports only the `http` protocol and is available for non-commercial use only.
+IP geolocation data is provided by [ip-api.com](https://ip-api.com/) and the API endpoint `http://ip-api.com/json/<host>` is queried when the information is requested.
+
+:::
+
+:::note
+
+The free API endpoint is limited to 45 requests per minute, supports only the `http` protocol and is available for non-commercial use only.
 
 :::
 
@@ -18,6 +24,10 @@ Example inputs:
 - `1.1.1.1`
 
 ![IPGeolocation](../img/ip-geolocation.png)
+
+In addition, further actions can be performed using the buttons at the bottom right:
+
+- **Export...** - Export the information to a CSV, XML or JSON file.
 
 :::note
 

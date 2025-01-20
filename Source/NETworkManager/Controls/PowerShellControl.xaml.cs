@@ -13,14 +13,13 @@ using NETworkManager.Utilities;
 
 namespace NETworkManager.Controls;
 
-public partial class PowerShellControl : UserControlBase
+public partial class PowerShellControl : UserControlBase, IDragablzTabItem, IEmbeddedWindow
 {
     #region Events
 
     private void WindowGrid_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (IsConnected)
-            ResizeEmbeddedWindow();
+        ResizeEmbeddedWindow();
     }
 
     #endregion
@@ -28,10 +27,11 @@ public partial class PowerShellControl : UserControlBase
     #region Variables
 
     private bool _initialized;
-    private bool _closing; // When the tab is closed --> OnClose()
+    private bool _closed;
 
     private readonly IDialogCoordinator _dialogCoordinator;
 
+    private readonly Guid _tabId;
     private readonly PowerShellSessionInfo _sessionInfo;
 
     private Process _process;
@@ -71,13 +71,16 @@ public partial class PowerShellControl : UserControlBase
 
     #region Constructor, load
 
-    public PowerShellControl(PowerShellSessionInfo sessionInfo)
+    public PowerShellControl(Guid tabId, PowerShellSessionInfo sessionInfo)
     {
         InitializeComponent();
         DataContext = this;
 
         _dialogCoordinator = DialogCoordinator.Instance;
 
+        ConfigurationManager.Current.PowerShellTabCount++;
+
+        _tabId = tabId;
         _sessionInfo = sessionInfo;
 
         Dispatcher.ShutdownStarted += Dispatcher_ShutdownStarted;
@@ -89,11 +92,13 @@ public partial class PowerShellControl : UserControlBase
         if (_initialized)
             return;
 
-        // Fix: The control is not visible by default, thus height and width is not set. If the values are not set, the size does not scale properly
-        WindowHost.Height = (int)ActualHeight;
-        WindowHost.Width = (int)ActualWidth;
+        // Fix 1: The control is not visible by default, thus height and width is not set. If the values are not set, the size does not scale properly
+        // Fix 2: Somehow the initial size need to be 20px smaller than the actual size after using Dragablz (https://github.com/BornToBeRoot/NETworkManager/pull/2678)
+        WindowHost.Height = (int)ActualHeight - 20;
+        WindowHost.Width = (int)ActualWidth - 20;
 
         Connect().ConfigureAwait(false);
+
         _initialized = true;
     }
 
@@ -108,7 +113,7 @@ public partial class PowerShellControl : UserControlBase
 
     public ICommand ReconnectCommand
     {
-        get { return new RelayCommand(p => ReconnectAction()); }
+        get { return new RelayCommand(_ => ReconnectAction()); }
     }
 
     private void ReconnectAction()
@@ -140,7 +145,6 @@ public partial class PowerShellControl : UserControlBase
                 _process.Exited += Process_Exited;
 
                 // Embed window into panel, remove border etc.
-                //  _process.WaitForInputIdle();
                 _appWin = _process.MainWindowHandle;
 
                 if (_appWin == IntPtr.Zero)
@@ -191,7 +195,7 @@ public partial class PowerShellControl : UserControlBase
         }
         catch (Exception ex)
         {
-            if (!_closing)
+            if (!_closed)
             {
                 var settings = AppearanceManager.MetroDialog;
                 settings.AffirmativeButtonText = Strings.OK;
@@ -227,7 +231,7 @@ public partial class PowerShellControl : UserControlBase
                 WindowHost.ClientSize.Height, NativeMethods.SWP_NOZORDER | NativeMethods.SWP_NOACTIVATE);
     }
 
-    public void Disconnect()
+    private void Disconnect()
     {
         if (IsConnected)
             _process.Kill();
@@ -243,9 +247,16 @@ public partial class PowerShellControl : UserControlBase
 
     public void CloseTab()
     {
-        _closing = true;
+        // Prevent multiple calls
+        if (_closed)
+            return;
 
+        _closed = true;
+
+        // Disconnect the session
         Disconnect();
+
+        ConfigurationManager.Current.PowerShellTabCount--;
     }
 
     #endregion

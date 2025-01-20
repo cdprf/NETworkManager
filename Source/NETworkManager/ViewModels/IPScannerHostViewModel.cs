@@ -27,6 +27,22 @@ public class IPScannerHostViewModel : ViewModelBase, IProfileManager
     private readonly DispatcherTimer _searchDispatcherTimer = new();
 
     public IInterTabClient InterTabClient { get; }
+
+    private string _interTabPartition;
+
+    public string InterTabPartition
+    {
+        get => _interTabPartition;
+        set
+        {
+            if (value == _interTabPartition)
+                return;
+
+            _interTabPartition = value;
+            OnPropertyChanged();
+        }
+    }
+
     public ObservableCollection<DragablzTabItem> TabItems { get; }
 
     private readonly bool _isLoading;
@@ -175,13 +191,14 @@ public class IPScannerHostViewModel : ViewModelBase, IProfileManager
         _dialogCoordinator = instance;
 
         InterTabClient = new DragablzInterTabClient(ApplicationName.IPScanner);
+        InterTabPartition = ApplicationName.IPScanner.ToString();
 
         var tabId = Guid.NewGuid();
 
-        TabItems = new ObservableCollection<DragablzTabItem>
-        {
-            new(Strings.NewTab, new IPScannerView(tabId), tabId)
-        };
+        TabItems =
+        [
+            new DragablzTabItem(Strings.NewTab, new IPScannerView(tabId), tabId)
+        ];
 
         // Profiles
         SetProfilesView();
@@ -234,7 +251,7 @@ public class IPScannerHostViewModel : ViewModelBase, IProfileManager
 
     private void AddProfileAction()
     {
-        ProfileDialogManager.ShowAddProfileDialog(this, _dialogCoordinator, null, null, ApplicationName.IPScanner)
+        ProfileDialogManager.ShowAddProfileDialog(this, this, _dialogCoordinator, null, null, ApplicationName.IPScanner)
             .ConfigureAwait(false);
     }
 

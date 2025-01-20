@@ -13,11 +13,13 @@ using System.Windows.Threading;
 using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Wpf;
+using log4net;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using NETworkManager.Localization.Resources;
 using NETworkManager.Models;
 using NETworkManager.Models.EventSystem;
+using NETworkManager.Models.Export;
 using NETworkManager.Models.Network;
 using NETworkManager.Profiles;
 using NETworkManager.Settings;
@@ -30,7 +32,8 @@ namespace NETworkManager.ViewModels;
 public class NetworkInterfaceViewModel : ViewModelBase, IProfileManager
 {
     #region Variables
-
+    private static readonly ILog Log = LogManager.GetLogger(typeof(NetworkInterfaceViewModel));
+    
     private readonly IDialogCoordinator _dialogCoordinator;
     private readonly DispatcherTimer _searchDispatcherTimer = new();
     private BandwidthMeter _bandwidthMeter;
@@ -671,6 +674,53 @@ public class NetworkInterfaceViewModel : ViewModelBase, IProfileManager
         ReloadNetworkInterfaces();
     }
 
+    public ICommand ExportCommand => new RelayCommand(_ => ExportAction().ConfigureAwait(false));
+
+    private async Task ExportAction()
+    {
+        var customDialog = new CustomDialog
+        {
+            Title = Strings.Export
+        };
+
+        var exportViewModel = new ExportViewModel(async instance =>
+            {
+                await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+
+                try
+                {
+                    ExportManager.Export(instance.FilePath, instance.FileType,
+                        instance.ExportAll ? NetworkInterfaces : [SelectedNetworkInterface]);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("Error while exporting data as " + instance.FileType, ex);
+                    
+                    var settings = AppearanceManager.MetroDialog;
+                    settings.AffirmativeButtonText = Strings.OK;
+
+                    await _dialogCoordinator.ShowMessageAsync(this, Strings.Error,
+                        Strings.AnErrorOccurredWhileExportingTheData + Environment.NewLine +
+                        Environment.NewLine + ex.Message, MessageDialogStyle.Affirmative, settings);
+                }
+
+                SettingsManager.Current.NetworkInterface_ExportFileType = instance.FileType;
+                SettingsManager.Current.NetworkInterface_ExportFilePath = instance.FilePath;
+            }, _ => { _dialogCoordinator.HideMetroDialogAsync(this, customDialog); },
+            [
+                ExportFileType.Csv, ExportFileType.Xml, ExportFileType.Json
+            ], true,
+            SettingsManager.Current.NetworkInterface_ExportFileType,
+            SettingsManager.Current.NetworkInterface_ExportFilePath);
+
+        customDialog.Content = new ExportDialog
+        {
+            DataContext = exportViewModel
+        };
+
+        await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+    }
+
     public ICommand ApplyConfigurationCommand =>
         new RelayCommand(_ => ApplyConfigurationAction(), ApplyConfiguration_CanExecute);
 
@@ -698,7 +748,7 @@ public class NetworkInterfaceViewModel : ViewModelBase, IProfileManager
     private void AddProfileAction()
     {
         ProfileDialogManager
-            .ShowAddProfileDialog(this, _dialogCoordinator, null, null, ApplicationName.NetworkInterface)
+            .ShowAddProfileDialog(this, this, _dialogCoordinator, null, null, ApplicationName.NetworkInterface)
             .ConfigureAwait(false);
     }
 
@@ -1108,6 +1158,7 @@ public class NetworkInterfaceViewModel : ViewModelBase, IProfileManager
         var config = new NetworkInterfaceConfig
         {
             Name = SelectedNetworkInterface.Name,
+            EnableDhcpStaticIpCoexistence = SelectedNetworkInterface.DhcpEnabled,
             IPAddress = ipAddress,
             Subnetmask = subnetmask
         };

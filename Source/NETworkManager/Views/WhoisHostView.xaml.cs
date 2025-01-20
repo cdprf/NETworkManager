@@ -2,7 +2,6 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
-using NETworkManager.Models;
 using NETworkManager.ViewModels;
 
 namespace NETworkManager.Views;
@@ -15,8 +14,6 @@ public partial class WhoisHostView
     {
         InitializeComponent();
         DataContext = _viewModel;
-
-        InterTabController.Partition = ApplicationName.Whois.ToString();
     }
 
     private void ContextMenu_Opened(object sender, RoutedEventArgs e)

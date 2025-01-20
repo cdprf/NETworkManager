@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Dragablz;
+using log4net;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using NETworkManager.Controls;
@@ -24,12 +24,13 @@ namespace NETworkManager.ViewModels;
 public class SNTPLookupViewModel : ViewModelBase
 {
     #region Variables
-
+    private static readonly ILog Log = LogManager.GetLogger(typeof(SNTPLookupViewModel));
+    
     private readonly IDialogCoordinator _dialogCoordinator;
 
     private readonly Guid _tabId;
-
     private readonly bool _isLoading;
+    private bool _closed;
 
     public ICollectionView SNTPServers { get; }
 
@@ -66,7 +67,7 @@ public class SNTPLookupViewModel : ViewModelBase
         }
     }
 
-    private ObservableCollection<SNTPLookupInfo> _results = new();
+    private ObservableCollection<SNTPLookupInfo> _results = [];
 
     public ObservableCollection<SNTPLookupInfo> Results
     {
@@ -151,6 +152,7 @@ public class SNTPLookupViewModel : ViewModelBase
         _isLoading = true;
 
         _dialogCoordinator = instance;
+        ConfigurationManager.Current.SNTPLookupTabCount++;
 
         _tabId = tabId;
 
@@ -193,49 +195,11 @@ public class SNTPLookupViewModel : ViewModelBase
             Query();
     }
 
-    public ICommand ExportCommand => new RelayCommand(_ => ExportAction().ConfigureAwait(false));
+    public ICommand ExportCommand => new RelayCommand(_ => ExportAction());
 
-    private async Task ExportAction()
+    private void ExportAction()
     {
-        var customDialog = new CustomDialog
-        {
-            Title = Strings.Export
-        };
-
-        var exportViewModel = new ExportViewModel(async instance =>
-        {
-            await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
-
-            try
-            {
-                ExportManager.Export(instance.FilePath, instance.FileType,
-                    instance.ExportAll
-                        ? Results
-                        : new ObservableCollection<SNTPLookupInfo>(SelectedResults.Cast<SNTPLookupInfo>().ToArray()));
-            }
-            catch (Exception ex)
-            {
-                var settings = AppearanceManager.MetroDialog;
-                settings.AffirmativeButtonText = Strings.OK;
-
-                await _dialogCoordinator.ShowMessageAsync(this, Strings.Error,
-                    Strings.AnErrorOccurredWhileExportingTheData + Environment.NewLine +
-                    Environment.NewLine + ex.Message, MessageDialogStyle.Affirmative, settings);
-            }
-
-            SettingsManager.Current.SNTPLookup_ExportFileType = instance.FileType;
-            SettingsManager.Current.SNTPLookup_ExportFilePath = instance.FilePath;
-        }, _ => { _dialogCoordinator.HideMetroDialogAsync(this, customDialog); }, new[]
-        {
-            ExportFileType.Csv, ExportFileType.Xml, ExportFileType.Json
-        }, true, SettingsManager.Current.SNTPLookup_ExportFileType, SettingsManager.Current.SNTPLookup_ExportFilePath);
-
-        customDialog.Content = new ExportDialog
-        {
-            DataContext = exportViewModel
-        };
-
-        await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+        Export().ConfigureAwait(false);
     }
 
     #endregion
@@ -252,12 +216,7 @@ public class SNTPLookupViewModel : ViewModelBase
         // Reset the latest results
         Results.Clear();
 
-        // Change the tab title (not nice, but it works)
-        var window = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
-
-        if (window != null)
-            foreach (var tabablzControl in VisualTreeHelper.FindVisualChildren<TabablzControl>(window))
-                tabablzControl.Items.OfType<DragablzTabItem>().First(x => x.Id == _tabId).Header = SNTPServer.Name;
+        DragablzTabItem.SetTabHeader(_tabId, SNTPServer.Name);
 
         SNTPLookupSettings settings = new(
             SettingsManager.Current.SNTPLookup_Timeout
@@ -272,8 +231,61 @@ public class SNTPLookupViewModel : ViewModelBase
         lookup.QueryAsync(SNTPServer.Servers, SettingsManager.Current.Network_ResolveHostnamePreferIPv4);
     }
 
+    private async Task Export()
+    {
+        var window = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
+
+        var customDialog = new CustomDialog
+        {
+            Title = Strings.Export
+        };
+
+        var exportViewModel = new ExportViewModel(async instance =>
+        {
+            await _dialogCoordinator.HideMetroDialogAsync(window, customDialog);
+
+            try
+            {
+                ExportManager.Export(instance.FilePath, instance.FileType,
+                    instance.ExportAll
+                        ? Results
+                        : new ObservableCollection<SNTPLookupInfo>(SelectedResults.Cast<SNTPLookupInfo>().ToArray()));
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error while exporting data as " + instance.FileType, ex);
+                
+                var settings = AppearanceManager.MetroDialog;
+                settings.AffirmativeButtonText = Strings.OK;
+
+                await _dialogCoordinator.ShowMessageAsync(window, Strings.Error,
+                    Strings.AnErrorOccurredWhileExportingTheData + Environment.NewLine +
+                    Environment.NewLine + ex.Message, MessageDialogStyle.Affirmative, settings);
+            }
+
+            SettingsManager.Current.SNTPLookup_ExportFileType = instance.FileType;
+            SettingsManager.Current.SNTPLookup_ExportFilePath = instance.FilePath;
+        }, _ => { _dialogCoordinator.HideMetroDialogAsync(window, customDialog); }, [
+            ExportFileType.Csv, ExportFileType.Xml, ExportFileType.Json
+        ], true, SettingsManager.Current.SNTPLookup_ExportFileType, SettingsManager.Current.SNTPLookup_ExportFilePath);
+
+        customDialog.Content = new ExportDialog
+        {
+            DataContext = exportViewModel
+        };
+
+        await _dialogCoordinator.ShowMetroDialogAsync(window, customDialog);
+    }
+
     public void OnClose()
     {
+        // Prevent multiple calls
+        if (_closed)
+            return;
+
+        _closed = true;
+
+        ConfigurationManager.Current.SNTPLookupTabCount--;
     }
 
     #endregion

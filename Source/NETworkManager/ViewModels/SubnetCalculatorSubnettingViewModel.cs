@@ -1,9 +1,9 @@
-﻿extern alias IPNetwork2;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -11,7 +11,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
-using IPNetwork2::System.Net;
+using log4net;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using NETworkManager.Localization.Resources;
@@ -46,7 +46,8 @@ public class SubnetCalculatorSubnettingViewModel : ViewModelBase
     #endregion
 
     #region Variables
-
+    private static readonly ILog Log = LogManager.GetLogger(typeof(SubnetCalculatorSubnettingViewModel));
+    
     private readonly IDialogCoordinator _dialogCoordinator;
 
     private string _subnet;
@@ -202,6 +203,8 @@ public class SubnetCalculatorSubnettingViewModel : ViewModelBase
                 }
                 catch (Exception ex)
                 {
+                    Log.Error("Error while exporting data as " + instance.FileType, ex);
+                    
                     var settings = AppearanceManager.MetroDialog;
                     settings.AffirmativeButtonText = Strings.OK;
 
@@ -239,7 +242,7 @@ public class SubnetCalculatorSubnettingViewModel : ViewModelBase
         var subnet = Subnet.Trim();
         var newSubnetmaskOrCidr = NewSubnetmask.Trim();
 
-        var ipNetwork = IPNetwork.Parse(Subnet.Trim());
+        var ipNetwork = IPNetwork2.Parse(Subnet.Trim());
 
         var newCidr =
             // Support subnetmask like 255.255.255.0

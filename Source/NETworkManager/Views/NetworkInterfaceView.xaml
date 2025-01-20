@@ -15,6 +15,7 @@
              xmlns:settings="clr-namespace:NETworkManager.Settings;assembly=NETworkManager.Settings"
              xmlns:controls="clr-namespace:NETworkManager.Controls"
              xmlns:liveChart="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:profiles="clr-namespace:NETworkManager.Profiles;assembly=NETworkManager.Profiles"
              dialog:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance viewModels:NetworkInterfaceViewModel}">
     <UserControl.InputBindings>
@@ -181,9 +182,9 @@
                                 </Button>
                             </Grid>
                         </StackPanel>
-                        <TextBlock Grid.Row="1" Text="{x:Static localization:Strings.Details}"
+                        <TextBlock Grid.Column="0" Grid.Row="1" Text="{x:Static localization:Strings.Details}"
                                    Style="{StaticResource HeaderTextBlock}" />
-                        <ScrollViewer Grid.Row="2" Style="{StaticResource DefaultScrollViewer}">
+                        <ScrollViewer Grid.Column="0" Grid.Row="2">
                             <Grid>
                                 <Grid.Resources>
                                     <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource CenterTextBlock}" />
@@ -402,7 +403,7 @@
                                     </Grid>
                                 </Button.Content>
                             </Button>
-                            <mah:DropDownButton Style="{StaticResource ImageDropDrownButton}">
+                            <mah:DropDownButton Style="{StaticResource ImageDropDrownButton}" Margin="0,0,10,0">
                                 <mah:DropDownButton.Content>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -445,6 +446,31 @@
                                     </MenuItem>
                                 </mah:DropDownButton.Items>
                             </mah:DropDownButton>
+                            <Button Command="{Binding Path=ExportCommand}"
+                                    HorizontalAlignment="Left">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type TypeName=Button}"
+                                           BasedOn="{StaticResource ResourceKey=ImageWithTextButton}" />
+                                </Button.Style>
+                                <Button.Content>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Rectangle Grid.Column="0" Grid.Row="0"
+                                                   Style="{StaticResource ResourceKey=ButtonWithImageRectangle}">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Uniform"
+                                                             Visual="{iconPacks:Material Kind=Export}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                        <TextBlock Grid.Column="1" Grid.Row="0"
+                                                   Text="{x:Static Member=localization:Strings.ExportDots}"
+                                                   Style="{StaticResource ResourceKey=ButtonWithImageTextBlock}" />
+                                    </Grid>
+                                </Button.Content>
+                            </Button>
                         </WrapPanel>
                     </Grid>
                 </TabItem>
@@ -825,7 +851,7 @@
                             </StackPanel>
                             <TextBlock Grid.Row="1" Style="{StaticResource HeaderTextBlock}"
                                        Text="{x:Static localization:Strings.Configure}" />
-                            <ScrollViewer Grid.Row="2" Style="{StaticResource DefaultScrollViewer}">
+                            <ScrollViewer Grid.Row="2">
                                 <StackPanel>
                                     <RadioButton x:Name="RadioButtonConfigEnableDynamicIPAddress"
                                                  GroupName="IPAddressConfig"
@@ -1227,7 +1253,7 @@
                         </Grid>
                         <ListBox Grid.Column="0" Grid.Row="2" ItemsSource="{Binding Profiles}"
                                  Visibility="{Binding IsSearching, Converter={StaticResource BooleanReverseToVisibilityCollapsedConverter}}"
-                                 DisplayMemberPath="Name" SelectedItem="{Binding SelectedProfile}"
+                                 SelectedItem="{Binding SelectedProfile}"
                                  Style="{StaticResource ProfileListBox}"
                                  ScrollViewer.CanContentScroll="True"
                                  VirtualizingPanel.IsVirtualizing="True"
@@ -1359,8 +1385,26 @@
                                 <Style TargetType="{x:Type ListBoxItem}"
                                        BasedOn="{StaticResource MahApps.Styles.ListBoxItem}">
                                     <Setter Property="ContextMenu" Value="{StaticResource ListBoxItemContextMenu}" />
+                                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                 </Style>
                             </ListBox.ItemContainerStyle>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="{x:Type profiles:ProfileInfo}">
+                                    <Grid Background="Transparent">
+                                        <Grid.ToolTip>
+                                            <ToolTip MinWidth="250">
+                                                <StackPanel Margin="10">
+                                                    <TextBlock Text="{Binding Host}" Style="{StaticResource DefaultTextBlock}" />
+                                                    <Separator Background="{DynamicResource MahApps.Brushes.Gray8}" Margin="0,10" />
+                                                    <TextBlock Text="{Binding Description}" Style="{StaticResource InfoTextBlock}" TextWrapping="Wrap" />
+                                                </StackPanel>
+                                            </ToolTip>                                        
+                                        </Grid.ToolTip>
+                                        <TextBlock Text="{Binding Name}" Style="{StaticResource CenterTextBlock}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
                         </ListBox>
                         <mah:ProgressRing Grid.Row="2" Height="50" Width="50" IsActive="{Binding IsSearching}" />
                         <Grid Grid.Row="2" VerticalAlignment="Center">

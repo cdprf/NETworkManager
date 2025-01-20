@@ -27,6 +27,22 @@ public class IPGeolocationHostViewModel : ViewModelBase, IProfileManager
     private readonly DispatcherTimer _searchDispatcherTimer = new();
 
     public IInterTabClient InterTabClient { get; }
+
+    private string _interTabPartition;
+
+    public string InterTabPartition
+    {
+        get => _interTabPartition;
+        set
+        {
+            if (value == _interTabPartition)
+                return;
+
+            _interTabPartition = value;
+            OnPropertyChanged();
+        }
+    }
+
     public ObservableCollection<DragablzTabItem> TabItems { get; }
 
     private readonly bool _isLoading;
@@ -175,13 +191,14 @@ public class IPGeolocationHostViewModel : ViewModelBase, IProfileManager
         _dialogCoordinator = instance;
 
         InterTabClient = new DragablzInterTabClient(ApplicationName.IPGeolocation);
+        InterTabPartition = ApplicationName.IPGeolocation.ToString();
 
         var tabId = Guid.NewGuid();
 
-        TabItems = new ObservableCollection<DragablzTabItem>
-        {
-            new(Strings.NewTab, new IPGeolocationView(tabId), tabId)
-        };
+        TabItems =
+        [
+            new DragablzTabItem(Strings.NewTab, new IPGeolocationView(tabId), tabId)
+        ];
 
         // Profiles
         SetProfilesView();
@@ -234,7 +251,8 @@ public class IPGeolocationHostViewModel : ViewModelBase, IProfileManager
 
     private void AddProfileAction()
     {
-        ProfileDialogManager.ShowAddProfileDialog(this, _dialogCoordinator, null, null, ApplicationName.IPGeolocation)
+        ProfileDialogManager
+            .ShowAddProfileDialog(this, this, _dialogCoordinator, null, null, ApplicationName.IPGeolocation)
             .ConfigureAwait(false);
     }
 
@@ -323,10 +341,10 @@ public class IPGeolocationHostViewModel : ViewModelBase, IProfileManager
 
     private void AddTab(string domain = null)
     {
-        var _tabId = Guid.NewGuid();
+        var tabId = Guid.NewGuid();
 
         TabItems.Add(new DragablzTabItem(domain ?? Strings.NewTab,
-            new IPGeolocationView(_tabId, domain), _tabId));
+            new IPGeolocationView(tabId, domain), tabId));
 
         SelectedTabIndex = TabItems.Count - 1;
     }

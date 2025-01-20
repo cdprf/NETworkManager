@@ -12,7 +12,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Dragablz;
+using log4net;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using NETworkManager.Controls;
@@ -35,6 +35,8 @@ public class SNMPViewModel : ViewModelBase
         _isLoading = true;
 
         _dialogCoordinator = instance;
+
+        ConfigurationManager.Current.SNMPTabCount++;
 
         _tabId = tabId;
         Host = sessionInfo?.Host;
@@ -95,14 +97,15 @@ public class SNMPViewModel : ViewModelBase
     #endregion
 
     #region Variables
-
+    private static readonly ILog Log = LogManager.GetLogger(typeof(SNMPViewModel));
+    
     private readonly IDialogCoordinator _dialogCoordinator;
 
     private CancellationTokenSource _cancellationTokenSource;
 
     private readonly Guid _tabId;
-
     private readonly bool _isLoading;
+    private bool _closed;
 
     private string _host;
 
@@ -504,47 +507,9 @@ public class SNMPViewModel : ViewModelBase
 
     public ICommand ExportCommand => new RelayCommand(_ => ExportAction());
 
-    private async void ExportAction()
+    private void ExportAction()
     {
-        var customDialog = new CustomDialog
-        {
-            Title = Strings.Export
-        };
-
-        var exportViewModel = new ExportViewModel(async instance =>
-        {
-            await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
-
-            try
-            {
-                ExportManager.Export(instance.FilePath, instance.FileType,
-                    instance.ExportAll
-                        ? QueryResults
-                        : new ObservableCollection<SNMPInfo>(SelectedResults.Cast<SNMPInfo>().ToArray()));
-            }
-            catch (Exception ex)
-            {
-                var settings = AppearanceManager.MetroDialog;
-                settings.AffirmativeButtonText = Strings.OK;
-
-                await _dialogCoordinator.ShowMessageAsync(this, Strings.Error,
-                    Strings.AnErrorOccurredWhileExportingTheData + Environment.NewLine +
-                    Environment.NewLine + ex.Message, MessageDialogStyle.Affirmative, settings);
-            }
-
-            SettingsManager.Current.SNMP_ExportFileType = instance.FileType;
-            SettingsManager.Current.SNMP_ExportFilePath = instance.FilePath;
-        }, _ => { _dialogCoordinator.HideMetroDialogAsync(this, customDialog); }, new[]
-        {
-            ExportFileType.Csv, ExportFileType.Xml, ExportFileType.Json
-        }, true, SettingsManager.Current.SNMP_ExportFileType, SettingsManager.Current.SNMP_ExportFilePath);
-
-        customDialog.Content = new ExportDialog
-        {
-            DataContext = exportViewModel
-        };
-
-        await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+        Export().ConfigureAwait(false);
     }
 
     #endregion
@@ -566,12 +531,7 @@ public class SNMPViewModel : ViewModelBase
 
         QueryResults.Clear();
 
-        // Change the tab title (not nice, but it works)
-        var window = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
-
-        if (window != null)
-            foreach (var tabablzControl in VisualTreeHelper.FindVisualChildren<TabablzControl>(window))
-                tabablzControl.Items.OfType<DragablzTabItem>().First(x => x.Id == _tabId).Header = Host;
+        DragablzTabItem.SetTabHeader(_tabId, Host);
 
         // Try to parse the string into an IP-Address
         if (!IPAddress.TryParse(Host, out var ipAddress))
@@ -681,10 +641,19 @@ public class SNMPViewModel : ViewModelBase
 
     public void OnClose()
     {
+        // Prevent multiple calls
+        if (_closed)
+            return;
+
+        _closed = true;
+
+        ConfigurationManager.Current.SNMPTabCount--;
     }
 
     private async Task OpenOIDProfileSelection()
     {
+        var window = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
+
         var customDialog = new CustomDialog
         {
             Title = Strings.SelectOIDProfile
@@ -692,18 +661,18 @@ public class SNMPViewModel : ViewModelBase
 
         var viewModel = new SNMPOIDProfilesViewModel(async instance =>
         {
-            await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+            await _dialogCoordinator.HideMetroDialogAsync(window, customDialog);
 
             Mode = instance.SelectedOIDProfile.Mode;
             Oid = instance.SelectedOIDProfile.OID;
-        }, async _ => { await _dialogCoordinator.HideMetroDialogAsync(this, customDialog); });
+        }, async _ => { await _dialogCoordinator.HideMetroDialogAsync(window, customDialog); });
 
         customDialog.Content = new SNMPOIDProfilesDialog
         {
             DataContext = viewModel
         };
 
-        await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+        await _dialogCoordinator.ShowMetroDialogAsync(window, customDialog);
     }
 
     private void AddHostToHistory(string host)
@@ -732,6 +701,52 @@ public class SNMPViewModel : ViewModelBase
 
         // Fill with the new items
         list.ForEach(x => SettingsManager.Current.SNMP_OidHistory.Add(x));
+    }
+
+    private async Task Export()
+    {
+        var window = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
+
+        var customDialog = new CustomDialog
+        {
+            Title = Strings.Export
+        };
+
+        var exportViewModel = new ExportViewModel(async instance =>
+        {
+            await _dialogCoordinator.HideMetroDialogAsync(window, customDialog);
+
+            try
+            {
+                ExportManager.Export(instance.FilePath, instance.FileType,
+                    instance.ExportAll
+                        ? QueryResults
+                        : new ObservableCollection<SNMPInfo>(SelectedResults.Cast<SNMPInfo>().ToArray()));
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error while exporting data as " + instance.FileType, ex);
+                
+                var settings = AppearanceManager.MetroDialog;
+                settings.AffirmativeButtonText = Strings.OK;
+
+                await _dialogCoordinator.ShowMessageAsync(window, Strings.Error,
+                    Strings.AnErrorOccurredWhileExportingTheData + Environment.NewLine +
+                    Environment.NewLine + ex.Message, MessageDialogStyle.Affirmative, settings);
+            }
+
+            SettingsManager.Current.SNMP_ExportFileType = instance.FileType;
+            SettingsManager.Current.SNMP_ExportFilePath = instance.FilePath;
+        }, _ => { _dialogCoordinator.HideMetroDialogAsync(window, customDialog); }, [
+            ExportFileType.Csv, ExportFileType.Xml, ExportFileType.Json
+        ], true, SettingsManager.Current.SNMP_ExportFileType, SettingsManager.Current.SNMP_ExportFilePath);
+
+        customDialog.Content = new ExportDialog
+        {
+            DataContext = exportViewModel
+        };
+
+        await _dialogCoordinator.ShowMetroDialogAsync(window, customDialog);
     }
 
     #endregion

@@ -29,6 +29,22 @@ public class SNMPHostViewModel : ViewModelBase, IProfileManager
     private readonly DispatcherTimer _searchDispatcherTimer = new();
 
     public IInterTabClient InterTabClient { get; }
+
+    private string _interTabPartition;
+
+    public string InterTabPartition
+    {
+        get => _interTabPartition;
+        set
+        {
+            if (value == _interTabPartition)
+                return;
+
+            _interTabPartition = value;
+            OnPropertyChanged();
+        }
+    }
+
     public ObservableCollection<DragablzTabItem> TabItems { get; }
 
     private readonly bool _isLoading;
@@ -177,8 +193,9 @@ public class SNMPHostViewModel : ViewModelBase, IProfileManager
         _dialogCoordinator = instance;
 
         InterTabClient = new DragablzInterTabClient(ApplicationName.SNMP);
+        InterTabPartition = ApplicationName.SNMP.ToString();
 
-        TabItems = new ObservableCollection<DragablzTabItem>();
+        TabItems = [];
         AddTab();
 
         // Profiles
@@ -232,7 +249,7 @@ public class SNMPHostViewModel : ViewModelBase, IProfileManager
 
     private void AddProfileAction()
     {
-        ProfileDialogManager.ShowAddProfileDialog(this, _dialogCoordinator, null, null, ApplicationName.SNMP)
+        ProfileDialogManager.ShowAddProfileDialog(this, this, _dialogCoordinator, null, null, ApplicationName.SNMP)
             .ConfigureAwait(false);
     }
 

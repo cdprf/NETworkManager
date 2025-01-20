@@ -1,10 +1,33 @@
 version: 2
 updates:
-- package-ecosystem: nuget
+- package-ecosystem: "nuget"
   directory: "/Source"
   schedule:
     interval: weekly
-  open-pull-requests-limit: 25
   target-branch: main
+  commit-message:
+    prefix: "Dependency (dependabot/nuget):"
+  labels:
+  - ":heavy_check_mark: dependencies"
+- package-ecosystem: "dotnet-sdk"
+  directory: "/Source"
+  ignore:
+  - dependency-name: dotnet-sdk
+    update-types:
+    - "version-update:semver-major"
+  schedule:
+    interval: weekly
+  target-branch: main
+  commit-message:
+    prefix: "Dependency (dependabot/dotnet-sdk):"
+  labels:
+  - ":heavy_check_mark: dependencies"
+- package-ecosystem: "npm"
+  directory: "/Website"
+  schedule:
+    interval: weekly
+  target-branch: main
+  commit-message:
+    prefix: "Dependency (dependabot/npm):"
   labels:
   - ":heavy_check_mark: dependencies"

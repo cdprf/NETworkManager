@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,6 +32,22 @@ public class WebConsoleHostViewModel : ViewModelBase, IProfileManager
     private readonly DispatcherTimer _searchDispatcherTimer = new();
 
     public IInterTabClient InterTabClient { get; }
+
+    private string _interTabPartition;
+
+    public string InterTabPartition
+    {
+        get => _interTabPartition;
+        set
+        {
+            if (value == _interTabPartition)
+                return;
+
+            _interTabPartition = value;
+            OnPropertyChanged();
+        }
+    }
+
     public ObservableCollection<DragablzTabItem> TabItems { get; }
 
     private readonly bool _isLoading;
@@ -212,9 +227,9 @@ public class WebConsoleHostViewModel : ViewModelBase, IProfileManager
         }
 
         InterTabClient = new DragablzInterTabClient(ApplicationName.WebConsole);
+        InterTabPartition = ApplicationName.WebConsole.ToString();
 
-        TabItems = new ObservableCollection<DragablzTabItem>();
-        TabItems.CollectionChanged += TabItems_CollectionChanged;
+        TabItems = [];
 
         // Profiles
         SetProfilesView();
@@ -283,7 +298,8 @@ public class WebConsoleHostViewModel : ViewModelBase, IProfileManager
 
     private void AddProfileAction()
     {
-        ProfileDialogManager.ShowAddProfileDialog(this, _dialogCoordinator, null, null, ApplicationName.WebConsole)
+        ProfileDialogManager
+            .ShowAddProfileDialog(this, this, _dialogCoordinator, null, null, ApplicationName.WebConsole)
             .ConfigureAwait(false);
     }
 
@@ -395,7 +411,9 @@ public class WebConsoleHostViewModel : ViewModelBase, IProfileManager
 
     private void Connect(WebConsoleSessionInfo sessionInfo, string header = null)
     {
-        TabItems.Add(new DragablzTabItem(header ?? sessionInfo.Url, new WebConsoleControl(sessionInfo)));
+        var tabId = Guid.NewGuid();
+
+        TabItems.Add(new DragablzTabItem(header ?? sessionInfo.Url, new WebConsoleControl(tabId, sessionInfo), tabId));
 
         SelectedTabIndex = TabItems.Count - 1;
     }
@@ -527,12 +545,6 @@ public class WebConsoleHostViewModel : ViewModelBase, IProfileManager
         RefreshProfiles();
 
         IsSearching = false;
-    }
-
-    private void TabItems_CollectionChanged(object sender,
-        NotifyCollectionChangedEventArgs e)
-    {
-        ConfigurationManager.Current.WebConsoleHasTabs = TabItems.Count > 0;
     }
 
     #endregion
